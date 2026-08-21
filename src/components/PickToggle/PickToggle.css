@@ -1,0 +1,59 @@
+/* ---------------------------------------------------------------------------
+   The pick's hit area, and what the drawing underneath does about it.
+
+   The button is invisible — the pick in the SVG is the whole visual. These
+   rules reach across from the button to that drawing through the stage, which
+   is the nearest element that contains both.
+--------------------------------------------------------------------------- */
+
+.pick-toggle {
+  position: absolute;
+  z-index: 2;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  /* Nothing to see here: the pick under the strings is the control. */
+  appearance: none;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* A pick-shaped focus ring — broad shoulders, soft point — leaning with the
+   pick it belongs to, rather than a rectangle sitting at an angle to it. */
+.pick-toggle::after {
+  content: "";
+  position: absolute;
+  inset: 5%;
+  border: 2px solid transparent;
+  border-radius: 34% 34% 50% 50% / 26% 26% 58% 58%;
+  transform: rotate(var(--pick-tilt));
+  transition: border-color var(--dur-fast) var(--ease-soft);
+}
+
+.pick-toggle:focus-visible {
+  outline: none;
+}
+
+.pick-toggle:focus-visible::after {
+  border-color: var(--terracotta);
+}
+
+/* Reaching back into the SVG. `:has()` on the stage is what lets a button that
+   sits above the artwork light up a shape that sits inside it. */
+.hero__stage .gtr__pick {
+  transition:
+    transform var(--dur-med) var(--ease-string),
+    filter var(--dur-med) var(--ease-soft);
+}
+
+.hero__stage:has(.pick-toggle:hover) .gtr__pick,
+.hero__stage:has(.pick-toggle:focus-visible) .gtr__pick {
+  /* Nudged out from under the strings, the way you would work one loose. */
+  transform: translate(1px, -3px);
+  filter: drop-shadow(0 0 7px rgba(var(--terracotta-rgb), 0.5));
+}
+
+.hero__stage:has(.pick-toggle:active) .gtr__pick {
+  transform: translate(0, -1px);
+}

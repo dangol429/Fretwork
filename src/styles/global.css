@@ -1,0 +1,153 @@
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  font-weight: 350;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* The backdrop is fixed and oversized; never let it create a scrollbar. */
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+::selection {
+  background: rgba(var(--terracotta-rgb), 0.24);
+}
+
+:focus-visible {
+  outline: 2px solid var(--terracotta);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.app {
+  position: relative;
+  min-height: 100%;
+  isolation: isolate;
+}
+
+/* ---------------------------------------------------------------------------
+   The room. Two fixed layers behind every view: the light on the wall, and the
+   tooth of the paper. Both are token-driven, so the same two layers become a
+   lit room or a dim one.
+--------------------------------------------------------------------------- */
+/* A soft warm wash, kept quiet so the linework stays crisp against it. In the
+   dark it becomes a single warm lamp with the corners falling away. */
+.app::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(68% 54% at 50% 44%, var(--wash-light), transparent 72%),
+    radial-gradient(90% 70% at 22% 60%, var(--wash-warm), transparent 68%),
+    radial-gradient(118% 104% at 50% 46%, transparent 44%, var(--wash-edge) 100%);
+}
+
+/* Paper: fine tooth over the whole screen, and a much slower mottle under it
+   so the warmth is never perfectly even. Warmth, not texture you notice. */
+.app::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.011' numOctaves='2' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='1.35'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+}
+
+/* ---------------------------------------------------------------------------
+   Theme cross-fade.
+
+   The lamp comes up rather than being switched on: for one window around the
+   toggle, every element transitions the properties a theme can actually change.
+   `useTheme` adds this class just before flipping `data-theme` and takes it off
+   again once the fade is done, so the transitions cost nothing the rest of the
+   time and never interfere with an element's own animations.
+
+   The selector carries a class, so it outranks the plain property declarations
+   it is overriding — and is still outranked by the `!important` reduced-motion
+   rule below, which is exactly the precedence we want.
+--------------------------------------------------------------------------- */
+.is-theme-shifting,
+.is-theme-shifting *,
+.is-theme-shifting *::before,
+.is-theme-shifting *::after {
+  transition:
+    background-color var(--dur-theme) var(--ease-soft),
+    background-image var(--dur-theme) var(--ease-soft),
+    border-color var(--dur-theme) var(--ease-soft),
+    box-shadow var(--dur-theme) var(--ease-soft),
+    color var(--dur-theme) var(--ease-soft),
+    fill var(--dur-theme) var(--ease-soft),
+    stroke var(--dur-theme) var(--ease-soft),
+    stop-color var(--dur-theme) var(--ease-soft),
+    opacity var(--dur-theme) var(--ease-soft);
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion: kill every decorative animation and land each element on its
+   final state. Entrance animations start elements at opacity 0, so this must
+   restore them or the page would come up blank.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .app [data-enter] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* The instrument is simply already drawn. */
+  .app [data-draw] {
+    stroke-dashoffset: 0 !important;
+  }
+}

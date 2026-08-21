@@ -1,0 +1,32 @@
+/* ---------------------------------------------------------------------------
+   Notes drifting behind the pointer.
+--------------------------------------------------------------------------- */
+
+.cursor-notes {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-soft);
+}
+
+.cursor-notes.is-awake {
+  opacity: 1;
+}
+
+.cursor-notes__note {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: block;
+  will-change: transform;
+  /* The trail sits behind the glass, not on top of it. */
+  filter: blur(0.2px);
+}
+
+/* After dark the notes are the only lit thing off the instrument, so they get
+   a soft warm halo — the same light that is spilling out of the soundhole. */
+[data-theme="dark"] .cursor-notes__note {
+  filter: blur(0.2px) drop-shadow(0 0 7px rgba(var(--terracotta-rgb), 0.4));
+}

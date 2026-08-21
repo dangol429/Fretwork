@@ -1,0 +1,329 @@
+/* ---------------------------------------------------------------------------
+   The results view. Same room as the hero — the wash and the paper grain are
+   on .app and show through here too — but laid out as a page you read rather
+   than a single held image.
+--------------------------------------------------------------------------- */
+
+.results {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 4rem) clamp(4rem, 10vh, 7rem);
+}
+
+/* -- The bar --------------------------------------------------------------
+   Sticky, and translucent rather than solid, so the paper keeps showing
+   through it as the list scrolls underneath. */
+.results__bar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  padding: clamp(0.9rem, 2.2vh, 1.4rem) 0;
+  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: blur(12px) saturate(1.15);
+  border-bottom: 1px solid var(--border-warm);
+}
+
+.results__home {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 34, "WONK" 1, "opsz" 72;
+  font-weight: 400;
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-soft);
+}
+
+.results__home:hover {
+  color: var(--terracotta);
+}
+
+.results__search {
+  flex: 0 1 17rem;
+}
+
+/* The same recess the nameplate on the hero is cut into, shrunk to a field. */
+.results__input {
+  width: 100%;
+  padding: 0.5rem 0.85rem;
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(var(--wood-neck), var(--wood-neck-lit));
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 24, "WONK" 1, "opsz" 40;
+  font-weight: 500;
+  font-size: var(--fs-sm);
+  text-align: center;
+  color: #f6efe2;
+  caret-color: var(--terracotta);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.results__input::placeholder {
+  color: rgba(246, 239, 226, 0.45);
+  font-weight: 400;
+}
+
+.results__input::-webkit-search-cancel-button,
+.results__input::-webkit-search-decoration {
+  display: none;
+}
+
+/* -- The chord itself ------------------------------------------------------ */
+.results__head {
+  padding: clamp(2.5rem, 7vh, 4.5rem) 0 0;
+}
+
+.results__title {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 34, "WONK" 1, "opsz" 144;
+  font-weight: 400;
+  font-size: clamp(3rem, 9vw, 5.25rem);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
+}
+
+.results__spoken {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-2xs);
+  font-weight: 400;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.results__notes {
+  margin-top: var(--sp-4);
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 28, "WONK" 1, "opsz" 24;
+  font-size: var(--fs-lg);
+  letter-spacing: 0.02em;
+  color: var(--terracotta);
+}
+
+/* -- Tiers ----------------------------------------------------------------- */
+.tier {
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
+
+.tier__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: var(--sp-4);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--border-warm);
+}
+
+/* The tier number, set like a chapter number. */
+.tier__index {
+  grid-row: span 2;
+  align-self: center;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 30, "WONK" 1, "opsz" 48;
+  font-weight: 400;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--terracotta);
+}
+
+.tier__label {
+  font-size: var(--fs-2xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.tier__aside {
+  margin-top: 0.3rem;
+  font-size: var(--fs-xs);
+  font-weight: 350;
+  line-height: var(--lh-snug);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.tier__shapes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: clamp(0.7rem, 1.6vw, 1.1rem);
+  margin-top: var(--sp-5);
+}
+
+/* -- One shape, playable --------------------------------------------------- */
+.shape {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+  padding: 1.4rem 0.75rem 0.9rem;
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  background: var(--card);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) var(--ease-soft),
+    box-shadow var(--dur-med) var(--ease-soft),
+    transform var(--dur-med) var(--ease-string);
+}
+
+.shape:hover,
+.shape:focus-visible {
+  border-color: var(--terracotta);
+  box-shadow: 0 10px 24px -18px rgba(var(--ink-rgb), 0.7);
+  transform: translateY(-3px);
+}
+
+.shape:active {
+  transform: translateY(-1px);
+}
+
+.shape__caption {
+  margin-top: 0.5rem;
+  font-size: var(--fs-2xs);
+  font-weight: 450;
+  line-height: var(--lh-snug);
+  color: var(--ink);
+}
+
+.shape__note {
+  font-size: var(--fs-3xs);
+  font-weight: 350;
+  line-height: 1.5;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.shape__badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.6rem;
+  font-size: 0.5625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+}
+
+/* The pick in the corner is the play button: strike it and it sounds. */
+.shape__pick {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.5rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  fill: var(--muted-light);
+  transition:
+    fill var(--dur-fast) var(--ease-soft),
+    transform var(--dur-med) var(--ease-string);
+}
+
+.shape:hover .shape__pick,
+.shape:focus-visible .shape__pick {
+  fill: var(--terracotta);
+  transform: rotate(-14deg) scale(1.12);
+}
+
+/* -- The chord that needed no help ----------------------------------------- */
+.results__easy {
+  display: flex;
+  gap: var(--sp-4);
+  align-items: flex-start;
+  max-width: 58ch;
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+  padding: var(--sp-5);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  background: var(--paper-raised);
+  font-size: var(--fs-xs);
+  font-weight: 350;
+  line-height: var(--lh-body);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.results__easy strong {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.results__easy-mark {
+  flex: none;
+  font-size: var(--fs-md);
+  line-height: 1.35;
+  color: var(--terracotta);
+}
+
+/* -- Entrance --------------------------------------------------------------
+   The page settles in rather than appearing: the chord first, then the shapes
+   in the order you would read them. */
+.results [data-enter] {
+  opacity: 0;
+}
+
+.results [data-enter="head"] {
+  animation: results-rise var(--dur-entrance) var(--ease-settle) forwards;
+}
+
+.results [data-enter="shape"] {
+  transform: translateY(10px);
+  animation: results-rise var(--dur-med) var(--ease-settle) calc(var(--i) * 45ms) forwards;
+}
+
+@keyframes results-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .results [data-enter] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .shape:hover,
+  .shape:focus-visible,
+  .shape:active {
+    transform: none !important;
+  }
+
+  .shape:hover .shape__pick,
+  .shape:focus-visible .shape__pick {
+    transform: none !important;
+  }
+}
+
+/* Says out loud what the pick in the corner of each card only hints at. */
+.results__hint {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: var(--sp-5);
+  font-size: var(--fs-xs);
+  font-weight: 350;
+  color: var(--muted);
+}
+
+.results__hint-pick {
+  width: 0.8rem;
+  height: 0.8rem;
+  fill: var(--terracotta);
+  transform: rotate(-12deg);
+}

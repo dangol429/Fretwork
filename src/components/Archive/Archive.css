@@ -1,0 +1,129 @@
+/* ---------------------------------------------------------------------------
+   The archive placard. A card on the wall: small, precise, and quiet enough
+   that you find it rather than being shown it.
+--------------------------------------------------------------------------- */
+
+.archive {
+  position: absolute;
+  top: clamp(1.75rem, 4.5vh, 3rem);
+  left: clamp(1.5rem, 3.4vw, 3.25rem);
+  z-index: 1;
+  width: 15.5rem;
+  max-width: 24vw;
+  /* Nothing here is interactive; it must never steal a click from the stage. */
+  pointer-events: none;
+}
+
+.archive__label {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.625rem; /* 10px — smaller than anything else on the page */
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* A short terracotta tick, the way a catalogue marks a section. */
+.archive__label::before {
+  content: "";
+  width: 0.875rem;
+  height: 1px;
+  flex: none;
+  background: var(--terracotta);
+}
+
+.archive__list {
+  display: grid;
+  gap: 1.05rem;
+  margin: 0;
+  padding: 0.85rem 0 0;
+  border-top: 1px solid var(--border-warm);
+  list-style: none;
+}
+
+.archive__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0 0 0.2rem;
+}
+
+.archive__year {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 28, "WONK" 1, "opsz" 20;
+  font-weight: 400;
+  font-size: 0.9375rem;
+  line-height: 1.2;
+  letter-spacing: 0.005em;
+  color: var(--ink);
+}
+
+.archive__dot {
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--muted-light);
+}
+
+.archive__place {
+  font-size: 0.5625rem; /* 9px */
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+}
+
+.archive__line {
+  margin: 0;
+  font-size: 0.6875rem; /* 11px */
+  font-weight: 350;
+  line-height: 1.62;
+  letter-spacing: 0.004em;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* -- Entrance --------------------------------------------------------------
+   Goes up once the instrument is finished and signed, entry by entry. */
+.archive[data-enter="archive"] {
+  opacity: 0;
+}
+
+.is-loaded .archive[data-enter="archive"] {
+  animation: archive-in var(--dur-entrance) var(--ease-settle) var(--delay-archive) forwards;
+}
+
+.archive__entry {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.is-loaded .archive__entry {
+  animation: archive-entry-in var(--dur-entrance) var(--ease-settle)
+    calc(var(--delay-archive) + 160ms + var(--i) * 140ms) forwards;
+}
+
+@keyframes archive-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes archive-entry-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Below this the placard would start crowding the stage rather than sitting
+   clear of it, and a proper narrow-screen layout is a later step. */
+@media (max-width: 900px), (max-height: 640px) {
+  .archive {
+    display: none;
+  }
+}

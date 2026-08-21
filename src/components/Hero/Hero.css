@@ -1,0 +1,120 @@
+/* ---------------------------------------------------------------------------
+   Hero — one full screen, the instrument centred, calm space around it.
+
+   The light in the room and the tooth of the paper live on .app in global.css,
+   because the results view sits in the same room. What is left here is the
+   shadow this particular instrument drops.
+--------------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: clamp(1.5rem, 4vh, 3rem);
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: clamp(2rem, 6vh, 4rem) var(--sp-4);
+  overflow: hidden;
+}
+
+/* -- Wordmark and tagline -------------------------------------------------- */
+.hero__intro {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-2);
+  text-align: center;
+}
+
+.hero__wordmark {
+  margin: 0;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 34, "WONK" 1, "opsz" 144;
+  font-weight: 400;
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
+}
+
+.hero__tagline {
+  font-size: var(--fs-2xs);
+  font-weight: 400;
+  letter-spacing: var(--tracking-caps);
+  color: var(--muted);
+}
+
+/* -- The stage ------------------------------------------------------------- */
+.hero__stage {
+  position: relative;
+  width: min(1420px, 94vw);
+  aspect-ratio: 1610 / 580;
+  /* Everything inside sizes off this width via cqw, so the engraved text and
+     the chips scale with the instrument instead of against it. */
+  container-type: inline-size;
+}
+
+/* A wide, soft pool under the whole instrument. The SVG casts the sharp
+   silhouette shadow; this is the ambient half of it, and between them the
+   drawing sits on the page instead of hovering over it. */
+.hero__stage::before {
+  content: "";
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  bottom: -10%;
+  height: 36%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(34% 60% at 21% 44%, var(--ground-far), transparent 72%),
+    radial-gradient(50% 42% at 62% 38%, var(--ground-far), transparent 76%);
+  filter: blur(7px);
+}
+
+/* -- Entrance -------------------------------------------------------------- */
+.hero [data-enter="wordmark"],
+.hero [data-enter="tagline"] {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.is-loaded .hero [data-enter="wordmark"] {
+  animation: hero-rise var(--dur-entrance) var(--ease-settle) var(--delay-wordmark) forwards;
+}
+
+.is-loaded .hero [data-enter="tagline"] {
+  animation: hero-rise var(--dur-entrance) var(--ease-settle)
+    calc(var(--delay-wordmark) + 130ms) forwards;
+}
+
+@keyframes hero-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Narrow screens.
+
+   A proper mobile layout is a later step. Until then the stage keeps a usable
+   size and the hero crops it, shifted so the nameplate stays centred — the body
+   and headstock run off the edges, which reads as a detail crop rather than a
+   broken page.
+--------------------------------------------------------------------------- */
+@media (max-width: 860px) {
+  /* Without this the oversized stage widens the grid column and drags the
+     wordmark off-screen with it. */
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero__stage {
+    width: 860px;
+    /* The grid already centres the overflowing stage; this only nudges it the
+       few percent needed to put the nameplate — rather than the middle of the
+       artwork — on the middle of the screen. The body and headstock run off
+       the edges, which reads as a detail crop. */
+    transform: translateX(calc(50% - var(--plate-center)));
+  }
+}

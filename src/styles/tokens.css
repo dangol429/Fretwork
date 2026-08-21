@@ -1,0 +1,212 @@
+/* ---------------------------------------------------------------------------
+   Fretwork — design tokens.
+   Single source of truth for palette, type, space and motion.
+   Every screen added later inherits this look for free; add to it, don't fork it.
+
+   Two themes live here and nowhere else. `:root` is the daylight instrument;
+   `[data-theme="dark"]` is the same instrument by candlelight — every value it
+   changes is a colour, so no component needs to know which theme is on. The
+   attribute is stamped on <html> before first paint by the inline script in
+   index.html, so there is no flash and no third "unset" state to handle.
+--------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* -- Core palette (locked — the loved colors) ---------------------------- */
+  --terracotta: #c2703d; /* primary accent — warm rust */
+  --terracotta-deep: #a85e30; /* pressed / active */
+  --paper: #f0ede8; /* warm cream background */
+  --paper-raised: #e8e2d8; /* raised surfaces */
+  --border-warm: #e0dcd4;
+  --border-soft: #ebe7e0;
+  --ink: #1a1a1a; /* primary text */
+  --muted: #888888;
+  --muted-light: #aaaaaa;
+  --card: #ffffff;
+  --accent-cut: #cc3333; /* muted-string red — reserved for chord diagrams (later step) */
+
+  /* -- The instrument (line art) ------------------------------------------ */
+  --line: #4a3324; /* warm dark-brown stroke — the drawing hand */
+  --line-soft: #8a705a; /* secondary linework: rosette, frets */
+  --surface: rgba(255, 253, 250, 0.55); /* faint fill under the linework */
+  --wood-neck: #2c1a12; /* recessed nameplate, in shadow at the top */
+  --wood-neck-lit: #43291c; /* and catching light at the bottom */
+  --string: #8a8074; /* plain steel — the high three */
+  --string-wound: #9c8663; /* phosphor bronze — the low three */
+  --peg: #b08d5a; /* soft brass tuning buttons */
+  --pearl: #f4f0e6; /* inlay dots */
+  --bone: #ece4d2; /* the nut */
+
+  /* Inside the soundhole. Daylight: the shadow of a body you can see into. */
+  --hole-inner: rgba(58, 38, 24, 0.13);
+  --hole-rim: rgba(58, 38, 24, 0.05);
+  --hole-spill: rgba(232, 164, 84, 0); /* daylight falls in; nothing spills out */
+  --label-ink: #6d5540; /* the maker's label, glued inside the body */
+
+  /* The pick tucked under the strings — its two faces. */
+  --pick-warm: #e3caa0; /* aged celluloid: the sun side */
+  --pick-warm-lit: #f2e3c4;
+  --pick-dark: #2a2018; /* tortoise shell: the moon side */
+  --pick-dark-lit: #3d2e21;
+  --pick-sun: #52381f; /* the sun, engraved into the warm face */
+  --pick-moon: #e8dcc4; /* the moon, painted on the dark face */
+
+  /* Alpha helpers, for glows and washes */
+  --terracotta-rgb: 194, 112, 61;
+  --ink-rgb: 26, 26, 26;
+
+  /* -- Atmosphere ----------------------------------------------------------
+     The room the instrument is sitting in: the light on the wall behind it,
+     the tooth of the paper, and the shadow it drops on whatever it rests on. */
+  --wash-light: rgba(255, 253, 250, 0.75); /* the pool of light behind it */
+  --wash-warm: rgba(var(--terracotta-rgb), 0.05);
+  --wash-edge: rgba(74, 51, 36, 0.05); /* corners falling away */
+  --grain-opacity: 0.042;
+  --grain-blend: multiply;
+  --ground-near: rgba(74, 51, 36, 0.28); /* contact shadow under the body */
+  --ground-far: rgba(74, 51, 36, 0.12); /* the neck, lighter, further off */
+
+  /* -- Typography ---------------------------------------------------------- */
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --font-sans: "Work Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-script: "Italianno", "Snell Roundhand", "Brush Script MT", cursive;
+
+  --fs-3xs: 0.6875rem; /* 11px — engraved micro-caps */
+  --fs-2xs: 0.75rem;
+  --fs-xs: 0.8125rem;
+  --fs-sm: 0.9375rem;
+  --fs-md: 1.0625rem;
+  --fs-lg: 1.375rem;
+  --fs-xl: 2rem;
+  --fs-display: clamp(2.75rem, 9vw, 5rem); /* wordmark */
+  --fs-plate: 2.2cqw; /* engraved text on the nameplate, sized off the stage */
+
+  --lh-tight: 1.05;
+  --lh-snug: 1.3;
+  --lh-body: 1.6;
+
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.08em;
+  --tracking-caps: 0.22em; /* letterspaced micro-caps */
+
+  /* -- Space --------------------------------------------------------------- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-9: 6rem;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-board: 14px;
+  --radius-pill: 999px;
+
+  --measure: 34ch;
+  --shell-max: 860px; /* the centerpiece's natural width */
+
+  /* -- Motion -------------------------------------------------------------- */
+  /* Nothing snaps. Things settle, the way a plucked string comes to rest. */
+  --ease-settle: cubic-bezier(0.16, 0.84, 0.44, 1);
+  --ease-string: cubic-bezier(0.22, 1.4, 0.36, 1); /* slight overshoot, then rest */
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --dur-fast: 180ms;
+  --dur-med: 420ms;
+  --dur-slow: 800ms;
+  --dur-entrance: 900ms;
+  --dur-theme: 640ms; /* the lamp coming up, or going down */
+  --dur-flip: 520ms; /* the pick turning over */
+
+  /* Entrance choreography — the instrument draws itself, then gets strung. */
+  --delay-body: 0ms;
+  --delay-soundhole: 260ms;
+  --delay-bridge: 420ms;
+  --delay-neck: 500ms;
+  --delay-frets: 720ms;
+  --delay-headstock: 820ms;
+  --delay-pegs: 1000ms;
+  --delay-plate: 780ms;
+  --delay-label: 1040ms; /* the label, glued in through the soundhole */
+  --delay-strings: 1140ms;
+  --delay-wordmark: 1220ms;
+  --delay-archive: 1500ms; /* the placard goes up once the piece is on show */
+  --delay-mark: 1620ms;
+  --delay-pick: 1760ms; /* the pick gets tucked under, last of all */
+
+  /* -- Elevation ----------------------------------------------------------- */
+  --shadow-glow: 0 0 46px -6px rgba(var(--terracotta-rgb), 0.55);
+  --shadow-chip: 0 2px 8px -4px rgba(var(--ink-rgb), 0.24);
+}
+
+/* ---------------------------------------------------------------------------
+   Dark — the same instrument, by candlelight.
+
+   Deliberately not an inversion. The room is warm espresso rather than black,
+   the drawing turns from dark strokes into a soft gold-cream glow instead of
+   going white, the woods deepen toward rosewood, the terracotta brightens as
+   if it were catching firelight, and light spills out of the soundhole.
+
+   Only colour lives here. Every geometry, size and duration is shared, which
+   is why a component never needs to ask which theme is on.
+--------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --terracotta: #e08a4a; /* the same rust, lit by a flame */
+  --terracotta-deep: #c26f36;
+  --paper: #17130f; /* deep warm espresso — never pure black */
+  --paper-raised: #1e1913;
+  --border-warm: #342a20;
+  --border-soft: #2a221a;
+  --ink: #efe6d4; /* warm cream */
+  --muted: #a08f79;
+  --muted-light: #7b6c5b;
+  --card: #241d16;
+  --accent-cut: #e05a4e;
+
+  --line: #d9c3a0; /* the drawing, glowing gold-cream out of the dark */
+  --line-soft: #9d876a; /* dimmer gold: rosette, frets */
+  --surface: rgba(74, 53, 34, 0.3); /* the body, holding a little lamplight */
+  --wood-neck: #2b1710; /* richer rosewood, in shadow */
+  --wood-neck-lit: #4f2d1b; /* and where the lamp reaches it */
+  --string: #c0b096; /* steel picks up the light */
+  --string-wound: #d6b47c; /* bronze picks up more */
+  --peg: #cb9a5c;
+  --pearl: #f7f1e2; /* the inlays catch more of it than anything else */
+  --bone: #e8dcc2;
+
+  /* The warmest thing on the screen: light coming out of the body. */
+  --hole-inner: rgba(232, 164, 84, 0.17);
+  --hole-rim: rgba(232, 164, 84, 0.08);
+  --hole-spill: rgba(232, 164, 84, 0.18); /* and here it spills back onto the body */
+  --label-ink: #c9ae87;
+
+  --pick-warm: #e8cfa2;
+  --pick-warm-lit: #f6e6c6;
+  /* A shade lighter than the top it is lying on, so it reads as an object
+     sitting there rather than a hole cut in the body. */
+  --pick-dark: #33261b;
+  --pick-dark-lit: #443323;
+  --pick-sun: #4a3016;
+  --pick-moon: #f0e4cc;
+
+  --terracotta-rgb: 224, 138, 74;
+  --ink-rgb: 239, 230, 212;
+
+  /* One warm lamp above the instrument; the corners fall away into the dark. */
+  --wash-light: rgba(96, 63, 34, 0.5);
+  --wash-warm: rgba(var(--terracotta-rgb), 0.07);
+  --wash-edge: rgba(0, 0, 0, 0.45);
+  --grain-opacity: 0.05;
+  --grain-blend: screen;
+  --ground-near: rgba(0, 0, 0, 0.55);
+  --ground-far: rgba(0, 0, 0, 0.3);
+
+  --shadow-chip: 0 2px 10px -4px rgba(0, 0, 0, 0.65);
+}

@@ -1,0 +1,580 @@
+/* ---------------------------------------------------------------------------
+   The line-art acoustic. Few confident strokes, generous space, no shading.
+
+   Every colour here is a token, which is the whole trick behind dark mode: the
+   drawing does not change, the light in the room does. Strokes go from warm
+   dark brown to a soft gold-cream glow, the woods deepen, and light starts
+   coming out of the soundhole instead of falling into it.
+--------------------------------------------------------------------------- */
+
+.gtr {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Every stroked part shares one weight and colour so the drawing reads as one
+   hand. Individual parts step up or down from here, never sideways. */
+.gtr__line {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.gtr__body,
+.gtr__headstock {
+  stroke-width: 3.2;
+}
+
+.gtr__soundhole {
+  stroke-width: 2.8;
+}
+
+.gtr__rosette {
+  stroke: var(--line-soft);
+  stroke-width: 1.4;
+}
+
+.gtr__fret {
+  stroke: var(--line-soft);
+  stroke-width: 1.6;
+}
+
+.gtr__saddle {
+  stroke-width: 1.8;
+}
+
+.gtr__neck-edge {
+  stroke-width: 2.8;
+}
+
+.gtr__peg-stem {
+  stroke-width: 2.6;
+}
+
+.gtr__peg-button {
+  fill: var(--peg);
+  stroke: var(--line);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.gtr__peg-post {
+  fill: var(--paper);
+  stroke: var(--line);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.gtr__pins circle {
+  fill: var(--line);
+  opacity: 0.75;
+}
+
+.gtr__inlays circle {
+  fill: var(--pearl);
+  stroke: var(--line-soft);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.gtr__nut {
+  fill: var(--bone);
+  stroke: var(--line);
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+
+/* A whisper of surface under the linework, so it reads as an object. */
+.gtr__surfaces path {
+  fill: var(--surface);
+  stroke: none;
+}
+
+/* -- Grounding -------------------------------------------------------------
+   The instrument's own silhouette, dropped down and to the right and blurred.
+   It is what stops the drawing floating in the middle of a blank page. */
+.gtr__ground path {
+  fill: var(--ground-near);
+  stroke: none;
+  transform: translate(5px, 17px);
+}
+
+/* The headstock lies further from the paper, so its shadow is softer. */
+.gtr__ground .gtr__ground-far {
+  fill: var(--ground-far);
+  transform: translate(6px, 20px);
+}
+
+/* -- The soundhole ---------------------------------------------------------
+   One element for the depth inside the hole and one for the light that comes
+   back out of it after dark. In daylight the second is a fully transparent
+   token, so it costs a paint and shows nothing. */
+.gtr-hole-core {
+  stop-color: var(--hole-inner);
+}
+
+.gtr-hole-rim {
+  stop-color: var(--hole-rim);
+}
+
+.gtr-spill-core {
+  stop-color: var(--hole-spill);
+}
+
+.gtr-spill-edge {
+  /* The same hue at zero alpha — fading to `transparent` can fringe grey. */
+  stop-color: rgba(232, 164, 84, 0);
+}
+
+.gtr__hole-inner {
+  stroke: none;
+}
+
+/* Lamplight is never perfectly steady. */
+.gtr__spill {
+  stroke: none;
+  animation: gtr-candle 9.5s var(--ease-soft) infinite;
+}
+
+@keyframes gtr-candle {
+  0%,
+  100% {
+    opacity: 0.88;
+  }
+  38% {
+    opacity: 1;
+  }
+  63% {
+    opacity: 0.93;
+  }
+}
+
+/* -- The maker's label -----------------------------------------------------
+   Glued inside the body, read through the soundhole and through the strings —
+   which is exactly how you read one on a real instrument. */
+.gtr__label-arc {
+  /* Without this the run starts at the halfway mark instead of straddling it,
+     and the text spirals off the end of the arc. */
+  text-anchor: middle;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  fill: var(--label-ink);
+}
+
+.gtr__label-sign {
+  font-family: var(--font-script);
+  font-size: 40px;
+  fill: var(--label-ink);
+}
+
+/* -- Soundwave rings ------------------------------------------------------- */
+.gtr__rings circle {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+  opacity: 0.045;
+  vector-effect: non-scaling-stroke;
+  transform-box: view-box;
+  transform-origin: 505px 290px;
+  animation: gtr-ring-breathe 11s var(--ease-soft) infinite;
+  animation-delay: calc(var(--i) * -2.4s);
+}
+
+@keyframes gtr-ring-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.035;
+  }
+  50% {
+    transform: scale(1.035);
+    opacity: 0.062;
+  }
+}
+
+/* -- The inlaid nameplate -------------------------------------------------- */
+.gtr-plate-top {
+  stop-color: var(--wood-neck);
+}
+
+.gtr-plate-bottom {
+  stop-color: var(--wood-neck-lit);
+}
+
+.gtr__plate-edge {
+  fill: none;
+  stroke-width: 2.4;
+}
+
+/* Cut into the surface: the near lip shades, the far lip catches the light. */
+.gtr__plate-shadow {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.45);
+  stroke-width: 2;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.gtr__plate-highlight {
+  fill: none;
+  stroke: rgba(255, 236, 208, 0.22);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.gtr__plate-glow {
+  fill: var(--terracotta);
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-soft);
+}
+
+.gtr.is-focused .gtr__plate-glow {
+  opacity: 0.45;
+}
+
+.gtr.is-focused .gtr__plate-edge {
+  stroke: var(--terracotta);
+}
+
+/* -- The pick, tucked under the strings ------------------------------------
+   Drawn before the strings so they cross it. The two faces are stacked in the
+   same place and cross-faded: whichever one is showing is the mode you are in.
+   The swap is delayed to the halfway point of the flip, so the face changes
+   while the pick is edge-on and you never see both at once.
+
+   Interaction lives in PickToggle.css, which owns the button parked over it. */
+.gtr__pick-flip {
+  transform-box: view-box;
+  transform-origin: var(--pick-x) var(--pick-y);
+}
+
+.gtr .gtr__pick-face {
+  transition: opacity 100ms linear calc(var(--dur-flip) / 2 - 50ms);
+}
+
+.gtr .gtr__pick-face--moon {
+  opacity: 0;
+}
+
+[data-theme="dark"] .gtr .gtr__pick-face--sun {
+  opacity: 0;
+}
+
+[data-theme="dark"] .gtr .gtr__pick-face--moon {
+  opacity: 1;
+}
+
+.gtr-pick-warm-lit {
+  stop-color: var(--pick-warm-lit);
+}
+
+.gtr-pick-warm-base {
+  stop-color: var(--pick-warm);
+}
+
+.gtr-pick-dark-lit {
+  stop-color: var(--pick-dark-lit);
+}
+
+.gtr-pick-dark-base {
+  stop-color: var(--pick-dark);
+}
+
+.gtr__pick-face--sun .gtr__pick-body {
+  fill: url(#gtr-pick-warm);
+  stroke: var(--line);
+}
+
+.gtr__pick-face--moon .gtr__pick-body {
+  fill: url(#gtr-pick-dark);
+  stroke: var(--line);
+}
+
+.gtr__pick-body {
+  stroke-width: 2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.gtr__pick-face--sun .gtr__pick-mark {
+  fill: var(--pick-sun);
+  stroke: var(--pick-sun);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.gtr__pick-face--moon .gtr__pick-mark {
+  fill: var(--pick-moon);
+  stroke: none;
+}
+
+.gtr__pick-star {
+  opacity: 0.75;
+}
+
+/* Half a turn, with the pick edge-on in the middle. Written as two quarter
+   turns in opposite directions rather than one 180deg so the face it lands on
+   is never mirrored — and so it still reads as a flip where 3D transforms on
+   SVG are flattened. */
+.gtr__pick-flip.is-flipping {
+  animation: gtr-pick-flip var(--dur-flip) var(--ease-soft);
+}
+
+@keyframes gtr-pick-flip {
+  0% {
+    transform: perspective(340px) rotateY(0deg);
+  }
+  49.9% {
+    transform: perspective(340px) rotateY(86deg);
+  }
+  50% {
+    transform: perspective(340px) rotateY(-86deg);
+  }
+  100% {
+    transform: perspective(340px) rotateY(0deg);
+  }
+}
+
+/* -- Strings --------------------------------------------------------------- */
+.gtr__string {
+  fill: none;
+  stroke: var(--string);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.gtr__string.is-wound {
+  stroke: var(--string-wound);
+}
+
+/* A pluck: sharp displacement decaying to rest. Heavy strings ring longest. */
+.gtr__strings.is-plucked .gtr__wire {
+  animation: gtr-pluck 1.1s var(--ease-soft) both;
+  animation-duration: calc(1.15s - var(--i) * 90ms);
+  animation-delay: calc(var(--i) * 14ms);
+}
+
+@keyframes gtr-pluck {
+  0% {
+    transform: translateY(-2.6px);
+  }
+  7% {
+    transform: translateY(2.1px);
+  }
+  14% {
+    transform: translateY(-1.5px);
+  }
+  21% {
+    transform: translateY(1.1px);
+  }
+  29% {
+    transform: translateY(-0.72px);
+  }
+  38% {
+    transform: translateY(0.46px);
+  }
+  49% {
+    transform: translateY(-0.26px);
+  }
+  62% {
+    transform: translateY(0.13px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Even at rest the strings are never quite still — a room's worth of air
+   moving against them. Slow, sub-pixel, and out of step with each other; you
+   should only notice it if you stop and look. */
+.gtr__sway {
+  animation: gtr-sway 8s var(--ease-soft) infinite;
+  animation-duration: calc(7.4s + var(--i) * 1.15s);
+  animation-delay: calc(var(--i) * -1.9s);
+}
+
+@keyframes gtr-sway {
+  0%,
+  100% {
+    transform: translateY(-0.3px);
+  }
+  50% {
+    transform: translateY(0.3px);
+  }
+}
+
+/* While the field is live the strings never quite settle. Periods are
+   deliberately unrelated so the six never fall into step. */
+.gtr.is-focused .gtr__shimmer {
+  animation: gtr-shimmer 1.6s var(--ease-soft) infinite;
+  animation-duration: calc(1.15s + var(--i) * 170ms);
+  animation-delay: calc(var(--i) * -230ms);
+}
+
+@keyframes gtr-shimmer {
+  0%,
+  100% {
+    transform: translateY(-0.5px);
+  }
+  50% {
+    transform: translateY(0.5px);
+  }
+}
+
+/* -- The maker's mark ------------------------------------------------------ */
+.gtr__mark {
+  font-family: var(--font-script);
+  font-size: 48px;
+  fill: var(--line);
+  opacity: 0.88;
+}
+
+/* ---------------------------------------------------------------------------
+   Entrance — the instrument draws itself, then gets strung.
+--------------------------------------------------------------------------- */
+
+.gtr [data-draw] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.is-loaded .gtr [data-draw] {
+  animation: gtr-draw var(--draw-dur, 620ms) var(--ease-settle) var(--draw-delay, 0ms) forwards;
+}
+
+@keyframes gtr-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.gtr [data-draw="body"] {
+  --draw-delay: var(--delay-body);
+  --draw-dur: 1000ms;
+}
+
+.gtr [data-draw="soundhole"] {
+  --draw-delay: var(--delay-soundhole);
+  --draw-dur: 700ms;
+}
+
+.gtr [data-draw="bridge"] {
+  --draw-delay: var(--delay-bridge);
+}
+
+.gtr [data-draw="neck"] {
+  --draw-delay: var(--delay-neck);
+  --draw-dur: 700ms;
+}
+
+.gtr [data-draw="fret"] {
+  --draw-delay: calc(var(--delay-frets) + var(--i) * 40ms);
+  --draw-dur: 420ms;
+}
+
+.gtr [data-draw="headstock"] {
+  --draw-delay: var(--delay-headstock);
+  --draw-dur: 760ms;
+}
+
+.gtr [data-draw="peg"] {
+  --draw-delay: calc(var(--delay-pegs) + var(--i) * 45ms);
+  --draw-dur: 420ms;
+}
+
+/* Strung one at a time, bridge to tuner. */
+.gtr [data-draw="string"] {
+  --draw-delay: calc(var(--delay-strings) + var(--i) * 70ms);
+  --draw-dur: 760ms;
+}
+
+/* Parts that fade rather than draw: fills, dots, the plate, the signature. */
+.gtr [data-enter] {
+  opacity: 0;
+}
+
+.is-loaded .gtr [data-enter] {
+  animation: gtr-fade var(--enter-dur, var(--dur-slow)) var(--ease-settle)
+    var(--enter-delay, 0ms) forwards;
+}
+
+@keyframes gtr-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+.gtr [data-enter="surface"] {
+  --enter-delay: var(--delay-body);
+}
+
+/* The shadow arrives with the outline, or the body appears to lift off. */
+.gtr [data-enter="ground"] {
+  --enter-delay: var(--delay-body);
+  --enter-dur: 1100ms;
+}
+
+.gtr [data-enter="hole"] {
+  --enter-delay: calc(var(--delay-soundhole) + 240ms);
+}
+
+.gtr [data-enter="bridge"] {
+  --enter-delay: calc(var(--delay-bridge) + 160ms);
+}
+
+.gtr [data-enter="neck"] {
+  --enter-delay: calc(var(--delay-neck) + 200ms);
+}
+
+.gtr [data-enter="fret"] {
+  --enter-delay: calc(var(--delay-frets) + 200ms);
+}
+
+.gtr [data-enter="plate"] {
+  --enter-delay: var(--delay-plate);
+}
+
+/* The label goes in through the soundhole before the top is strung. */
+.gtr [data-enter="label"] {
+  --enter-delay: var(--delay-label);
+  --enter-dur: 900ms;
+}
+
+/* The signature goes on last, the way a maker signs a finished instrument. */
+.gtr [data-enter="mark"] {
+  --enter-delay: var(--delay-mark);
+  --enter-dur: 900ms;
+}
+
+/* And the pick gets tucked under once there are strings to tuck it under. */
+.gtr [data-enter="pick"] {
+  --enter-delay: var(--delay-pick);
+  --enter-dur: 700ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gtr__rings circle,
+  .gtr .gtr__wire,
+  .gtr .gtr__sway,
+  .gtr .gtr__shimmer,
+  .gtr .gtr__spill,
+  .gtr .gtr__pick-flip {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* The face swap has to survive the flip being switched off. */
+  .gtr .gtr__pick-face {
+    transition: none !important;
+  }
+}

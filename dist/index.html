@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#f0ede8" />
+    <meta
+      name="description"
+      content="Fretwork — look up any guitar chord and see every way to play it."
+    />
+    <title>Fretwork — every way to play every chord</title>
+
+    <!-- Resolve the theme before the first paint: a stored choice if there is
+         one, the OS preference otherwise. Inline and synchronous on purpose —
+         anything deferred would let a light frame flash in a dark room.
+         The key is shared with src/hooks/useTheme.ts. -->
+    <script>
+      (function () {
+        var theme = "light";
+        try {
+          var stored = localStorage.getItem("fretwork-theme");
+          theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+        } catch (error) {
+          /* No storage (private mode): fall back to light. */
+        }
+        document.documentElement.dataset.theme = theme;
+        document
+          .querySelector('meta[name="theme-color"]')
+          .setAttribute("content", theme === "dark" ? "#17130f" : "#f0ede8");
+      })();
+    </script>
+
+    <!-- Fonts: preconnect + non-blocking stylesheet swap, so first paint never waits on them. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Italianno&family=Work+Sans:wght@300..600&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Italianno&family=Work+Sans:wght@300..600&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Italianno&family=Work+Sans:wght@300..600&display=swap"
+      />
+    </noscript>
+    <script type="module" crossorigin src="/assets/index-BrVij7on.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Bkj6qfNh.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

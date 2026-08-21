@@ -1,0 +1,86 @@
+/* ---------------------------------------------------------------------------
+   The chord diagram. Same hand as the instrument on the hero: thin strokes,
+   no shading, every colour a token so both themes come out right.
+--------------------------------------------------------------------------- */
+
+.diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.diagram__fret,
+.diagram__string {
+  stroke: var(--line-soft);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.diagram__fret {
+  opacity: 0.55;
+}
+
+.diagram__string {
+  opacity: 0.75;
+}
+
+/* The nut is the one heavy line in the drawing. */
+.diagram__nut {
+  stroke: var(--line);
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.diagram__open {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+.diagram__muted line {
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.diagram__finger circle {
+  fill: var(--line);
+}
+
+.diagram__finger text {
+  fill: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.diagram__barre {
+  fill: var(--line);
+}
+
+.diagram__fret-number {
+  fill: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-anchor: end;
+  dominant-baseline: central;
+}
+
+/* The capo is the one thing on the diagram that is not part of the guitar, so
+   it is the one thing wearing the accent colour. */
+.diagram__capo rect {
+  fill: var(--terracotta);
+}
+
+.diagram__capo .diagram__fret-number {
+  fill: var(--terracotta);
+  font-weight: 600;
+}

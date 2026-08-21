@@ -1,0 +1,187 @@
+/* ---------------------------------------------------------------------------
+   The search field, inlaid into the neck.
+--------------------------------------------------------------------------- */
+
+.chord-search {
+  position: absolute;
+  inset: 0;
+  /* The form is only a positioning frame — the guitar underneath stays clickable
+     nowhere it matters, and the field itself re-enables pointer events. */
+  pointer-events: none;
+}
+
+.chord-search__field {
+  position: absolute;
+  display: grid;
+  align-items: center;
+  pointer-events: auto;
+  cursor: text;
+}
+
+.chord-search__input {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 0.9cqw;
+  border: 0;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 24, "WONK" 1, "opsz" 80;
+  font-weight: 500;
+  font-size: var(--fs-plate);
+  line-height: 1;
+  letter-spacing: 0.015em;
+  text-align: center;
+  /* Light text cut into a dark recess — the whole reason for the inlay. */
+  color: #f6efe2;
+  caret-color: var(--terracotta);
+  text-shadow:
+    0 0.09cqw 0 rgba(0, 0, 0, 0.65),
+    0 0 0.3cqw rgba(18, 9, 4, 0.85);
+  opacity: 0;
+  transition: opacity var(--dur-med) var(--ease-soft);
+}
+
+.is-loaded .chord-search__input {
+  animation: cs-text-in var(--dur-slow) var(--ease-settle) calc(var(--delay-plate) + 260ms) forwards;
+}
+
+@keyframes cs-text-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.chord-search__input:focus {
+  outline: none;
+}
+
+.chord-search__input::placeholder {
+  color: rgba(246, 239, 226, 0.52);
+  font-weight: 400;
+  transition: color var(--dur-med) var(--ease-soft);
+}
+
+.chord-search.is-focused .chord-search__input::placeholder {
+  color: rgba(246, 239, 226, 0.34);
+}
+
+.chord-search__input::-webkit-search-cancel-button,
+.chord-search__input::-webkit-search-decoration {
+  display: none;
+}
+
+/* Keyboard users get a visible ring on the plate, since the input's own outline
+   would be lost against the recess. */
+.chord-search__input:focus-visible {
+  outline: none;
+}
+
+.chord-search__field:has(.chord-search__input:focus-visible) {
+  outline: 2px solid var(--terracotta);
+  outline-offset: 0.5cqw;
+}
+
+/* -- Hint chips ------------------------------------------------------------
+   Parked in the empty space under the neck: the body ends well to the left and
+   the headstock starts well to the right, so nothing can overlap them. */
+.chord-search__hints {
+  position: absolute;
+  left: var(--plate-center);
+  top: 68%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.7cqw;
+  margin: 0;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity var(--dur-med) var(--ease-soft);
+}
+
+.chord-search.is-focused .chord-search__hints {
+  opacity: 1;
+}
+
+.chord-search__hints-label {
+  font-size: clamp(11px, 0.86cqw, 14px);
+  letter-spacing: var(--tracking-wide);
+  color: var(--muted-light);
+}
+
+.chord-search__chip {
+  padding: 0.32em 0.72em;
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-pill);
+  background: var(--card);
+  box-shadow: var(--shadow-chip);
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 20, "WONK" 1;
+  font-weight: 500;
+  font-size: clamp(12px, 1cqw, 17px);
+  color: var(--terracotta);
+  transform: translateY(6px);
+  transition:
+    transform var(--dur-med) var(--ease-string),
+    opacity var(--dur-med) var(--ease-soft);
+  transition-delay: calc(var(--i) * 55ms);
+  opacity: 0;
+}
+
+.chord-search.is-focused .chord-search__chip {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chord-search__input {
+    opacity: 1 !important;
+  }
+
+  .chord-search__chip {
+    transform: none !important;
+  }
+}
+
+/* Chips are buttons now: they fill the field and run the search in one go. */
+.chord-search__chip {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.chord-search.is-focused .chord-search__chip:hover {
+  border-color: var(--terracotta);
+  color: var(--terracotta-deep);
+}
+
+/* -- A query we could not read --------------------------------------------
+   Parked under the neck like the hints, and always visible — it is the answer
+   to something the player just did. */
+.chord-search__miss {
+  position: absolute;
+  left: var(--plate-center);
+  top: 80%;
+  transform: translateX(-50%);
+  width: min(38ch, 62cqw);
+  margin: 0;
+  font-size: clamp(11px, 0.86cqw, 14px);
+  font-weight: 350;
+  line-height: var(--lh-snug);
+  text-align: center;
+  text-wrap: pretty;
+  color: var(--muted);
+}
+
+.chord-search__miss-name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--accent-cut);
+}
+
+.chord-search__miss-eg {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--terracotta);
+}
