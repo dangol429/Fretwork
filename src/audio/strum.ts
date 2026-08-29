@@ -22,6 +22,26 @@ let ringing: GainNode | null = null;
 const buffers = new Map<number, AudioBuffer>();
 
 /**
+ * iOS hands a page that has only ever used Web Audio the "ambient" audio
+ * session, and the ambient session is silenced by the ring/silent switch on
+ * the side of the phone. Nothing is wrong with the graph in that case — the
+ * notes are rendered and then thrown away, which is why the desktop and a
+ * narrowed desktop window both sound fine and the phone does not. Asking for
+ * the playback session says these are notes the user pressed a button to hear,
+ * and they play with the switch either way. Safari 16.4 and up; everything
+ * else ignores the property.
+ */
+function claimPlaybackSession() {
+  const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession;
+  if (!session) return;
+  try {
+    session.type = "playback";
+  } catch {
+    /* Locked down, or a shape of the API we do not know. Play anyway. */
+  }
+}
+
+/**
  * Browsers refuse to start audio until the user has interacted with the page,
  * so the context is built on the first strum rather than at import time.
  */
@@ -32,9 +52,19 @@ function audio(): AudioContext | null {
       window.AudioContext ??
       (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!Ctor) return null;
+    claimPlaybackSession();
     context = new Ctor();
+    // Locking the phone, taking a call or letting another app take the output
+    // parks the context. WebKit parks it in "interrupted", which no spec
+    // mentions and no amount of resuming on the next tap recovers from if the
+    // tap happens before the page is visible again.
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) void context?.resume();
+    });
   }
-  if (context.state === "suspended") void context.resume();
+  // Anything but "running" wants resuming — "suspended" everywhere, and
+  // "interrupted" on iOS, which a === "suspended" test walks straight past.
+  if (context.state !== "running") void context.resume();
   return context;
 }
 
