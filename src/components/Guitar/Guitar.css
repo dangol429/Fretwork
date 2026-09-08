@@ -431,14 +431,6 @@
   }
 }
 
-/* -- The maker's mark ------------------------------------------------------ */
-.gtr__mark {
-  font-family: var(--font-script);
-  font-size: 48px;
-  fill: var(--line);
-  opacity: 0.88;
-}
-
 /* ---------------------------------------------------------------------------
    Entrance — the instrument draws itself, then gets strung.
 --------------------------------------------------------------------------- */
@@ -449,7 +441,7 @@
 }
 
 .is-loaded .gtr [data-draw] {
-  animation: gtr-draw var(--draw-dur, 620ms) var(--ease-settle) var(--draw-delay, 0ms) forwards;
+  animation: gtr-draw var(--draw-dur, 400ms) var(--ease-settle) var(--draw-delay, 0ms) forwards;
 }
 
 @keyframes gtr-draw {
@@ -460,12 +452,12 @@
 
 .gtr [data-draw="body"] {
   --draw-delay: var(--delay-body);
-  --draw-dur: 1000ms;
+  --draw-dur: 560ms;
 }
 
 .gtr [data-draw="soundhole"] {
   --draw-delay: var(--delay-soundhole);
-  --draw-dur: 700ms;
+  --draw-dur: 400ms;
 }
 
 .gtr [data-draw="bridge"] {
@@ -474,28 +466,28 @@
 
 .gtr [data-draw="neck"] {
   --draw-delay: var(--delay-neck);
-  --draw-dur: 700ms;
+  --draw-dur: 400ms;
 }
 
 .gtr [data-draw="fret"] {
-  --draw-delay: calc(var(--delay-frets) + var(--i) * 40ms);
-  --draw-dur: 420ms;
+  --draw-delay: calc(var(--delay-frets) + var(--i) * 22ms);
+  --draw-dur: 280ms;
 }
 
 .gtr [data-draw="headstock"] {
   --draw-delay: var(--delay-headstock);
-  --draw-dur: 760ms;
+  --draw-dur: 420ms;
 }
 
 .gtr [data-draw="peg"] {
-  --draw-delay: calc(var(--delay-pegs) + var(--i) * 45ms);
-  --draw-dur: 420ms;
+  --draw-delay: calc(var(--delay-pegs) + var(--i) * 26ms);
+  --draw-dur: 280ms;
 }
 
 /* Strung one at a time, bridge to tuner. */
 .gtr [data-draw="string"] {
-  --draw-delay: calc(var(--delay-strings) + var(--i) * 70ms);
-  --draw-dur: 760ms;
+  --draw-delay: calc(var(--delay-strings) + var(--i) * 38ms);
+  --draw-dur: 420ms;
 }
 
 /* Parts that fade rather than draw: fills, dots, the plate, the signature. */
@@ -521,23 +513,23 @@
 /* The shadow arrives with the outline, or the body appears to lift off. */
 .gtr [data-enter="ground"] {
   --enter-delay: var(--delay-body);
-  --enter-dur: 1100ms;
+  --enter-dur: 620ms;
 }
 
 .gtr [data-enter="hole"] {
-  --enter-delay: calc(var(--delay-soundhole) + 240ms);
+  --enter-delay: calc(var(--delay-soundhole) + 130ms);
 }
 
 .gtr [data-enter="bridge"] {
-  --enter-delay: calc(var(--delay-bridge) + 160ms);
+  --enter-delay: calc(var(--delay-bridge) + 90ms);
 }
 
 .gtr [data-enter="neck"] {
-  --enter-delay: calc(var(--delay-neck) + 200ms);
+  --enter-delay: calc(var(--delay-neck) + 110ms);
 }
 
 .gtr [data-enter="fret"] {
-  --enter-delay: calc(var(--delay-frets) + 200ms);
+  --enter-delay: calc(var(--delay-frets) + 110ms);
 }
 
 .gtr [data-enter="plate"] {
@@ -547,19 +539,13 @@
 /* The label goes in through the soundhole before the top is strung. */
 .gtr [data-enter="label"] {
   --enter-delay: var(--delay-label);
-  --enter-dur: 900ms;
-}
-
-/* The signature goes on last, the way a maker signs a finished instrument. */
-.gtr [data-enter="mark"] {
-  --enter-delay: var(--delay-mark);
-  --enter-dur: 900ms;
+  --enter-dur: 480ms;
 }
 
 /* And the pick gets tucked under once there are strings to tuck it under. */
 .gtr [data-enter="pick"] {
   --enter-delay: var(--delay-pick);
-  --enter-dur: 700ms;
+  --enter-dur: 420ms;
 }
 
 @media (prefers-reduced-motion: reduce) {

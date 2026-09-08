@@ -113,12 +113,6 @@ export const PEGS: Peg[] = [
   { x: 1375, y: 330, edgeY: 370, buttonY: 398 },
 ];
 
-/**
- * Where the maker signs it: past the last tuner, at the tip of the headstock —
- * the one stretch of face no string crosses.
- */
-export const MARK = { x: 1472, y: 302 };
-
 /* -- Strings --------------------------------------------------------------- */
 
 /** Wider at the saddle than at the nut, as the string spacing really is. */

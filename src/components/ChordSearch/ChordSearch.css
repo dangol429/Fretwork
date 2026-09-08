@@ -34,18 +34,19 @@
   line-height: 1;
   letter-spacing: 0.015em;
   text-align: center;
-  /* Light text cut into a dark recess — the whole reason for the inlay. */
-  color: #f6efe2;
+  /* Light text cut into a dark recess — the whole reason for the inlay.
+     One crisp offset shadow gives the engraved lip; the soft dark halo that
+     used to sit under it has gone, because at this size it bled into the
+     letterforms and read as the text itself being dim. */
+  color: var(--plate-ink);
   caret-color: var(--terracotta);
-  text-shadow:
-    0 0.09cqw 0 rgba(0, 0, 0, 0.65),
-    0 0 0.3cqw rgba(18, 9, 4, 0.85);
+  text-shadow: 0 0.07cqw 0 rgba(0, 0, 0, 0.55);
   opacity: 0;
   transition: opacity var(--dur-med) var(--ease-soft);
 }
 
 .is-loaded .chord-search__input {
-  animation: cs-text-in var(--dur-slow) var(--ease-settle) calc(var(--delay-plate) + 260ms) forwards;
+  animation: cs-text-in var(--dur-med) var(--ease-settle) calc(var(--delay-plate) + 140ms) forwards;
 }
 
 @keyframes cs-text-in {
@@ -58,14 +59,20 @@
   outline: none;
 }
 
+/* The placeholder is a solid parchment rather than the typed colour at low
+   alpha. Alpha over a near-black recess is what made it read as muddy, and it
+   was landing at 4.3:1 — under AA. Solid, it sits at 8.9:1 and still reads as
+   quieter than what you type. */
 .chord-search__input::placeholder {
-  color: rgba(246, 239, 226, 0.52);
+  color: var(--plate-ink-dim);
+  opacity: 1; /* Firefox dims placeholders by default. */
   font-weight: 400;
   transition: color var(--dur-med) var(--ease-soft);
 }
 
+/* Recedes a little once you are typing into it — never below AA. */
 .chord-search.is-focused .chord-search__input::placeholder {
-  color: rgba(246, 239, 226, 0.34);
+  color: var(--plate-ink-dimmer);
 }
 
 .chord-search__input::-webkit-search-cancel-button,
@@ -108,7 +115,7 @@
 .chord-search__hints-label {
   font-size: clamp(11px, 0.86cqw, 14px);
   letter-spacing: var(--tracking-wide);
-  color: var(--muted-light);
+  color: var(--muted);
 }
 
 .chord-search__chip {
@@ -121,7 +128,7 @@
   font-variation-settings: "SOFT" 20, "WONK" 1;
   font-weight: 500;
   font-size: clamp(12px, 1cqw, 17px);
-  color: var(--terracotta);
+  color: var(--terracotta-text);
   transform: translateY(6px);
   transition:
     transform var(--dur-med) var(--ease-string),
@@ -153,7 +160,7 @@
 
 .chord-search.is-focused .chord-search__chip:hover {
   border-color: var(--terracotta);
-  color: var(--terracotta-deep);
+  color: var(--terracotta-text-hover);
 }
 
 /* -- A query we could not read --------------------------------------------
@@ -183,5 +190,5 @@
 .chord-search__miss-eg {
   font-family: var(--font-display);
   font-weight: 500;
-  color: var(--terracotta);
+  color: var(--terracotta-text);
 }

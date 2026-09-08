@@ -1,0 +1,3 @@
+# Fretwork is one public page. Everything on it is meant to be found.
+User-agent: *
+Allow: /

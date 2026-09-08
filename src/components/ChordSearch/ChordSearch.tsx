@@ -1,5 +1,6 @@
 import { useState, type CSSProperties, type FormEvent } from "react";
 import { PLATE, VIEW, pctX, pctY } from "../Guitar/geometry";
+import { warmChords } from "../../chords/load";
 import "./ChordSearch.css";
 
 const HINTS = ["A♯", "B♭", "Am"];
@@ -69,6 +70,10 @@ export function ChordSearch({ onFocusChange, onPluck, onSearch, notFound }: Chor
             setFocused(true);
             onFocusChange(true);
             onPluck();
+            // Touching the field is the earliest honest signal that an answer
+            // is coming, so the chord engine starts loading now rather than on
+            // Enter — by then it is usually already here.
+            warmChords();
           }}
           onBlur={() => {
             setFocused(false);
@@ -98,6 +103,7 @@ export function ChordSearch({ onFocusChange, onPluck, onSearch, notFound }: Chor
             // The field never has focus when a chip is clicked, so filling it
             // in and searching in one go is the only useful behaviour.
             onMouseDown={(event) => event.preventDefault()}
+            onPointerEnter={warmChords}
             onClick={() => {
               setValue(hint);
               onSearch(hint);

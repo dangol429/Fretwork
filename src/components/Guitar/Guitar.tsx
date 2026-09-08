@@ -8,7 +8,6 @@ import {
   INLAY_X,
   INLAY_YS,
   LABEL,
-  MARK,
   NUT,
   NUT_X,
   PEGS,
@@ -77,6 +76,11 @@ export function Guitar({ focused, pluck, flip, makerName }: GuitarProps) {
     <svg
       className={`gtr${focused ? " is-focused" : ""}`}
       viewBox={`0 0 ${VIEW.w} ${VIEW.h}`}
+      /* Intrinsic size as well as a viewBox: the stage already reserves the
+         right box via aspect-ratio, and these make the ratio explicit to the
+         browser too, so nothing can shift as the SVG resolves. */
+      width={VIEW.w}
+      height={VIEW.h}
       role="img"
       aria-labelledby="gtr-title gtr-desc"
     >
@@ -84,7 +88,8 @@ export function Guitar({ focused, pluck, flip, makerName }: GuitarProps) {
       <desc id="gtr-desc">
         The body and soundhole lie on the left, the neck runs through the middle with the
         chord search inlaid into it, and the headstock with six tuning pegs sits on the
-        right, signed by {makerName}.
+        right. The maker's label, signed {makerName}, is glued inside the body and read
+        through the soundhole.
       </desc>
 
       <defs>
@@ -92,12 +97,15 @@ export function Guitar({ focused, pluck, flip, makerName }: GuitarProps) {
           <stop className="gtr-plate-top" offset="0%" />
           <stop className="gtr-plate-bottom" offset="100%" />
         </linearGradient>
-        <filter id="gtr-glow" x="-25%" y="-160%" width="150%" height="420%">
-          <feGaussianBlur stdDeviation="14" />
+        {/* Both filter regions are kept as tight as the blur radius allows —
+            a Gaussian costs by area, and the glow's region in particular used
+            to be four times taller than the rect it was blurring. */}
+        <filter id="gtr-glow" x="-16%" y="-95%" width="132%" height="290%">
+          <feGaussianBlur stdDeviation="9" />
         </filter>
         {/* The shadow the instrument drops on whatever it is lying on. */}
-        <filter id="gtr-cast" x="-14%" y="-24%" width="128%" height="152%">
-          <feGaussianBlur stdDeviation="13" />
+        <filter id="gtr-cast" x="-9%" y="-16%" width="118%" height="134%">
+          <feGaussianBlur stdDeviation="9" />
         </filter>
         {/* Celluloid has a sheen: both faces are lit from the top edge. */}
         <linearGradient id="gtr-pick-warm" x1="0" y1="0" x2="0" y2="1">
@@ -466,11 +474,6 @@ export function Guitar({ focused, pluck, flip, makerName }: GuitarProps) {
           </g>
         ))}
       </g>
-
-      {/* --- The maker's mark, engraved on the headstock ------------------- */}
-      <text className="gtr__mark" x={MARK.x} y={MARK.y} textAnchor="middle" data-enter="mark">
-        {makerName}
-      </text>
     </svg>
   );
 }

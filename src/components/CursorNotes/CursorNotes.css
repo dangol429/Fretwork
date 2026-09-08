@@ -15,18 +15,21 @@
   opacity: 1;
 }
 
+/* Transform and nothing else. A blur(0.2px) used to sit on these — below the
+   threshold of visibility, and still a filter pass on every node on every
+   frame. */
 .cursor-notes__note {
   position: fixed;
   top: 0;
   left: 0;
   display: block;
   will-change: transform;
-  /* The trail sits behind the glass, not on top of it. */
-  filter: blur(0.2px);
 }
 
-/* After dark the notes are the only lit thing off the instrument, so they get
-   a soft warm halo — the same light that is spilling out of the soundhole. */
+/* After dark the notes are the only lit thing off the instrument, so they keep
+   a soft warm halo — the same light that is spilling out of the soundhole.
+   A drop-shadow on a moving node is the one filter worth paying for here, so
+   it is the only one left, and the trail is short enough to afford it. */
 [data-theme="dark"] .cursor-notes__note {
-  filter: blur(0.2px) drop-shadow(0 0 7px rgba(var(--terracotta-rgb), 0.4));
+  filter: drop-shadow(0 0 6px rgba(var(--terracotta-rgb), 0.4));
 }

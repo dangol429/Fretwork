@@ -44,9 +44,20 @@ src/
     substitutes.ts              tier 3
     resolve.ts                  a query in, the whole answer out
     describe.ts                 saying what a shape is, in words
+    load.ts                     fetches this whole layer, and Results, on demand
   audio/
     strum.ts                    Karplus-Strong plucked strings
+public/
+  grain.png                     the paper tooth, as a tiled bitmap
+  robots.txt
+scripts/
+  make-grain.mjs                writes public/grain.png. Run by hand, not by the build.
 ```
+
+The hero is the page everyone lands on and it needs none of `chords/`,
+`Results/`, `ChordDiagram/` or `audio/`. `chords/load.ts` keeps all of it in a
+separate chunk, fetched when the search field is first touched, which takes a
+third of the stylesheet and a chunk of the script off the first paint.
 
 ### The chord layer
 

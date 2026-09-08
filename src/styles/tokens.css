@@ -21,10 +21,19 @@
   --border-warm: #e0dcd4;
   --border-soft: #ebe7e0;
   --ink: #1a1a1a; /* primary text */
-  --muted: #888888;
-  --muted-light: #aaaaaa;
+  /* The two quiet greys are warm rather than neutral, and dark enough to clear
+     WCAG AA (4.5:1) on --paper at the small sizes they are used at. Quiet is a
+     matter of weight, size and tracking here — never of being hard to read. */
+  --muted: #6b6157; /* 5.16:1 on --paper */
+  --muted-light: #6f655a; /* 4.88:1 on --paper */
   --card: #ffffff;
-  --accent-cut: #cc3333; /* muted-string red — reserved for chord diagrams (later step) */
+  --accent-cut: #c02626; /* muted-string red — 5.02:1 on --paper */
+
+  /* Terracotta as ink. The brand rust is a 3.1:1 colour: right for a stroke or
+     a tick, too pale to set type in. Anything that is *text* uses these two
+     instead, so the accent stays the accent without failing contrast. */
+  --terracotta-text: #a35520; /* 4.58:1 on --paper, 5.41:1 on --card */
+  --terracotta-text-hover: #8c4818; /* 6.93:1 on --card */
 
   /* -- The instrument (line art) ------------------------------------------ */
   --line: #4a3324; /* warm dark-brown stroke — the drawing hand */
@@ -32,6 +41,14 @@
   --surface: rgba(255, 253, 250, 0.55); /* faint fill under the linework */
   --wood-neck: #2c1a12; /* recessed nameplate, in shadow at the top */
   --wood-neck-lit: #43291c; /* and catching light at the bottom */
+
+  /* Engraved into that recess. Bright warm parchment, not a dimmed version of
+     it: the plate is the darkest thing on the page and the text on it has to be
+     the most legible. Both values clear AA against the lit end of the inlay —
+     the worst case — in both themes. */
+  --plate-ink: #fbf5e9; /* 11.6:1 on --wood-neck-lit */
+  --plate-ink-dim: #e8dcc6; /* placeholder — 8.9:1 */
+  --plate-ink-dimmer: #dccdb2; /* placeholder, once the field has focus — 7.7:1 */
   --string: #8a8074; /* plain steel — the high three */
   --string-wound: #9c8663; /* phosphor bronze — the low three */
   --peg: #b08d5a; /* soft brass tuning buttons */
@@ -118,26 +135,30 @@
 
   --dur-fast: 180ms;
   --dur-med: 420ms;
-  --dur-slow: 800ms;
-  --dur-entrance: 900ms;
+  --dur-slow: 520ms;
+  --dur-entrance: 560ms;
   --dur-theme: 640ms; /* the lamp coming up, or going down */
   --dur-flip: 520ms; /* the pick turning over */
 
-  /* Entrance choreography — the instrument draws itself, then gets strung. */
+  /* Entrance choreography — the instrument draws itself, then gets strung.
+     The order is still the one a luthier works in; the clock is about half what
+     it was. The old sequence ran for 2.5s, which meant the largest thing on the
+     page was still fading in when Chrome wanted to record the largest
+     contentful paint. Everything now lands inside ~1.15s, and the wordmark —
+     which is text, and the first thing you read — is up almost immediately. */
+  --delay-wordmark: 60ms;
   --delay-body: 0ms;
-  --delay-soundhole: 260ms;
-  --delay-bridge: 420ms;
-  --delay-neck: 500ms;
-  --delay-frets: 720ms;
-  --delay-headstock: 820ms;
-  --delay-pegs: 1000ms;
-  --delay-plate: 780ms;
-  --delay-label: 1040ms; /* the label, glued in through the soundhole */
-  --delay-strings: 1140ms;
-  --delay-wordmark: 1220ms;
-  --delay-archive: 1500ms; /* the placard goes up once the piece is on show */
-  --delay-mark: 1620ms;
-  --delay-pick: 1760ms; /* the pick gets tucked under, last of all */
+  --delay-soundhole: 130ms;
+  --delay-bridge: 210ms;
+  --delay-neck: 250ms;
+  --delay-label: 300ms; /* the label, glued in through the soundhole */
+  --delay-frets: 360ms;
+  --delay-plate: 390ms;
+  --delay-headstock: 410ms;
+  --delay-pegs: 500ms;
+  --delay-strings: 560ms;
+  --delay-archive: 620ms; /* the placard goes up once the piece is on show */
+  --delay-pick: 700ms; /* the pick gets tucked under, last of all */
 
   /* -- Elevation ----------------------------------------------------------- */
   --shadow-glow: 0 0 46px -6px rgba(var(--terracotta-rgb), 0.55);
@@ -160,19 +181,25 @@
 
   --terracotta: #e08a4a; /* the same rust, lit by a flame */
   --terracotta-deep: #c26f36;
+  /* In the dark the flame-lit rust is already bright enough to set type in
+     (6.9:1 on --paper, 6.2:1 on --card); hover brightens rather than deepens. */
+  --terracotta-text: #e08a4a;
+  --terracotta-text-hover: #efa262;
   --paper: #17130f; /* deep warm espresso — never pure black */
   --paper-raised: #1e1913;
   --border-warm: #342a20;
   --border-soft: #2a221a;
   --ink: #efe6d4; /* warm cream */
-  --muted: #a08f79;
-  --muted-light: #7b6c5b;
+  --muted: #a08f79; /* 5.89:1 on --paper */
+  --muted-light: #8d7c69; /* 4.58:1 on --paper */
   --card: #241d16;
   --accent-cut: #e05a4e;
 
   --line: #d9c3a0; /* the drawing, glowing gold-cream out of the dark */
   --line-soft: #9d876a; /* dimmer gold: rosette, frets */
   --surface: rgba(74, 53, 34, 0.3); /* the body, holding a little lamplight */
+  /* The inlay stays this dark after dark too — it is a recess, and the lamp
+     does not reach into it — so --plate-ink carries over unchanged. */
   --wood-neck: #2b1710; /* richer rosewood, in shadow */
   --wood-neck-lit: #4f2d1b; /* and where the lamp reaches it */
   --string: #c0b096; /* steel picks up the light */

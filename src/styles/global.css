@@ -82,8 +82,14 @@ p {
     radial-gradient(118% 104% at 50% 46%, transparent 44%, var(--wash-edge) 100%);
 }
 
-/* Paper: fine tooth over the whole screen, and a much slower mottle under it
-   so the warmth is never perfectly even. Warmth, not texture you notice. */
+/* Paper: fine tooth over the whole screen. Warmth, not texture you notice.
+
+   This used to be two full-viewport <feTurbulence> filters, evaluated at paint
+   time — between them the single most expensive thing on the page. It is now
+   one seamless 128px bitmap — public/grain.png, three octaves of the same value
+   noise, written once by scripts/make-grain.mjs — that the compositor tiles.
+   The slow mottle the second filter provided is gone; the radial washes above
+   already keep the warmth from being perfectly even, which was its whole job. */
 .app::after {
   content: "";
   position: fixed;
@@ -92,8 +98,9 @@ p {
   pointer-events: none;
   opacity: var(--grain-opacity);
   mix-blend-mode: var(--grain-blend);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.011' numOctaves='2' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='1.35'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+  background-image: url("/grain.png");
+  background-repeat: repeat;
+  background-size: 128px 128px;
 }
 
 /* ---------------------------------------------------------------------------

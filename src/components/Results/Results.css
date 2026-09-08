@@ -45,7 +45,7 @@
 }
 
 .results__home:hover {
-  color: var(--terracotta);
+  color: var(--terracotta-text);
 }
 
 .results__search {
@@ -66,13 +66,14 @@
   font-weight: 500;
   font-size: var(--fs-sm);
   text-align: center;
-  color: #f6efe2;
+  color: var(--plate-ink);
   caret-color: var(--terracotta);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
 }
 
 .results__input::placeholder {
-  color: rgba(246, 239, 226, 0.45);
+  color: var(--plate-ink-dim);
+  opacity: 1; /* Firefox dims placeholders by default. */
   font-weight: 400;
 }
 
@@ -111,7 +112,7 @@
   font-variation-settings: "SOFT" 28, "WONK" 1, "opsz" 24;
   font-size: var(--fs-lg);
   letter-spacing: 0.02em;
-  color: var(--terracotta);
+  color: var(--terracotta-text);
 }
 
 /* -- Tiers ----------------------------------------------------------------- */
@@ -137,7 +138,7 @@
   font-weight: 400;
   font-size: 1.75rem;
   line-height: 1;
-  color: var(--terracotta);
+  color: var(--terracotta-text);
 }
 
 .tier__label {
@@ -217,7 +218,7 @@
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--terracotta);
+  color: var(--terracotta-text);
 }
 
 /* The pick in the corner is the play button: strike it and it sounds. */
@@ -266,7 +267,7 @@
   flex: none;
   font-size: var(--fs-md);
   line-height: 1.35;
-  color: var(--terracotta);
+  color: var(--terracotta-text);
 }
 
 /* -- Entrance --------------------------------------------------------------
