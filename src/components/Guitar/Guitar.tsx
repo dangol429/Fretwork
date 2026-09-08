@@ -313,8 +313,13 @@ export function Guitar({ focused, pluck, flip, makerName }: GuitarProps) {
         ))}
       </g>
 
-      {/* The nameplate: a recess cut into the neck to hold the search field. */}
-      <g className="gtr__plate" data-enter="plate">
+      {/* The light the live nameplate throws onto the neck around it. It lies on
+          the neck surface, so it belongs here, under the strings — the plate
+          itself is drawn after them, further down. The wrapper is what carries
+          the entrance fade: put `data-enter` on the rect and its finished
+          animation would pin opacity at 1 and the focus state could never dim
+          it back down. */}
+      <g className="gtr__plate-halo" data-enter="plate">
         <rect
           className="gtr__plate-glow"
           x={PLATE.x}
@@ -323,32 +328,6 @@ export function Guitar({ focused, pluck, flip, makerName }: GuitarProps) {
           height={PLATE.h}
           rx={PLATE.r}
           filter="url(#gtr-glow)"
-        />
-        <rect
-          className="gtr__plate-face"
-          x={PLATE.x}
-          y={PLATE.y}
-          width={PLATE.w}
-          height={PLATE.h}
-          rx={PLATE.r}
-          fill="url(#gtr-plate)"
-        />
-        {/* Light falls from above, so the near edge shades and the far edge catches it. */}
-        <path
-          className="gtr__plate-shadow"
-          d={`M ${PLATE.x + 10} ${PLATE.y + 3} H ${PLATE.x + PLATE.w - 10}`}
-        />
-        <path
-          className="gtr__plate-highlight"
-          d={`M ${PLATE.x + 10} ${PLATE.y + PLATE.h - 3} H ${PLATE.x + PLATE.w - 10}`}
-        />
-        <rect
-          className="gtr__line gtr__plate-edge"
-          x={PLATE.x}
-          y={PLATE.y}
-          width={PLATE.w}
-          height={PLATE.h}
-          rx={PLATE.r}
         />
       </g>
 
@@ -439,6 +418,42 @@ export function Guitar({ focused, pluck, flip, makerName }: GuitarProps) {
             </g>
           </g>
         ))}
+      </g>
+
+      {/* The nameplate: a recess cut into the neck to hold the search field.
+
+          Drawn after the strings, and last of anything that sits on the neck,
+          because a recess has a floor and you cannot see six wires lying across
+          the bottom of it. The fill is a flat opaque gradient between the two
+          wood tokens — occlusion, not translucency — so the strings simply end
+          at one edge and pick up again at the other. */}
+      <g className="gtr__plate" data-enter="plate">
+        <rect
+          className="gtr__plate-face"
+          x={PLATE.x}
+          y={PLATE.y}
+          width={PLATE.w}
+          height={PLATE.h}
+          rx={PLATE.r}
+          fill="url(#gtr-plate)"
+        />
+        {/* Light falls from above, so the near edge shades and the far edge catches it. */}
+        <path
+          className="gtr__plate-shadow"
+          d={`M ${PLATE.x + 10} ${PLATE.y + 3} H ${PLATE.x + PLATE.w - 10}`}
+        />
+        <path
+          className="gtr__plate-highlight"
+          d={`M ${PLATE.x + 10} ${PLATE.y + PLATE.h - 3} H ${PLATE.x + PLATE.w - 10}`}
+        />
+        <rect
+          className="gtr__line gtr__plate-edge"
+          x={PLATE.x}
+          y={PLATE.y}
+          width={PLATE.w}
+          height={PLATE.h}
+          rx={PLATE.r}
+        />
       </g>
 
       {/* Tuners last, so each post sits cleanly over the strings passing it. */}

@@ -199,7 +199,10 @@
   }
 }
 
-/* -- The inlaid nameplate -------------------------------------------------- */
+/* -- The inlaid nameplate --------------------------------------------------
+   Two pieces, drawn at two different depths. The halo lies on the neck under
+   the strings, because that is where the light falls; the plate itself is drawn
+   after them, so nothing shows through the recess. Both fade in together. */
 .gtr-plate-top {
   stop-color: var(--wood-neck);
 }
