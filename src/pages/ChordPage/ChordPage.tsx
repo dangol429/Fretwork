@@ -110,7 +110,10 @@ export function ChordAnswer({ slug, result }: ChordAnswerProps) {
   const intro = buildChordIntro(result);
   const faqs = buildChordFaqs(result, alt);
 
-  useEffect(() => applyHeadTags(meta), [slug]);
+  // `meta` is a fresh object every render; re-deriving it here rather than
+  // depending on it directly keeps the effect from firing on every keystroke
+  // in the search field above.
+  useEffect(() => applyHeadTags(buildChordMeta(result, slug)), [result, slug]);
 
   // Two shapes can share a hand position — the easiest one there and the
   // fullest-sounding one. Where that happens, say how many strings each
