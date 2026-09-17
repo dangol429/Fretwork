@@ -1,0 +1,79 @@
+/* ---------------------------------------------------------------------------
+   The 404. Same room as everywhere else — the wash and the paper grain are on
+   .app and show through here too — held to one centred measure rather than
+   laid out as a page, since there is only ever one thing to say.
+--------------------------------------------------------------------------- */
+
+.not-found {
+  position: relative;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--sp-4);
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: clamp(4rem, 16vh, 8rem) clamp(1.25rem, 5vw, 4rem);
+}
+
+.not-found__eyebrow {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-2xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.not-found__title {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 30, "WONK" 1, "opsz" 60;
+  font-weight: 450;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
+}
+
+.not-found__query {
+  color: var(--terracotta-text);
+}
+
+.not-found__hint {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--muted);
+}
+
+.not-found__hint span {
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+.not-found__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+  padding: 0.65rem 1.2rem;
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  background: var(--card);
+  transition:
+    color var(--dur-fast) var(--ease-soft),
+    border-color var(--dur-fast) var(--ease-soft),
+    transform var(--dur-fast) var(--ease-soft);
+}
+
+.not-found__link:hover {
+  color: var(--terracotta-text-hover);
+  border-color: var(--terracotta);
+  transform: translateY(-1px);
+}

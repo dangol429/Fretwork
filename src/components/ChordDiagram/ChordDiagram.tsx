@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { Barre } from "../../chords/fretboard";
 import "./ChordDiagram.css";
 
@@ -52,13 +53,24 @@ export function ChordDiagram({
   // With a capo the shape is fingered as if the capo were the nut, so the
   // window always starts at the top and the fret numbers come off the capo.
   const openLike = capo > 0 || baseFret === 1;
+  const titleId = useId();
+  const descId = useId();
 
   return (
     <svg
       className="diagram"
       viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
-      {...(description ? { role: "img", "aria-label": description } : { "aria-hidden": true })}
+      {...(description
+        ? { role: "img", "aria-labelledby": `${titleId} ${descId}` }
+        : { "aria-hidden": true })}
     >
+      {description && (
+        <>
+          <title id={titleId}>Chord diagram</title>
+          <desc id={descId}>{description}</desc>
+        </>
+      )}
+
       {/* Frets. The first one doubles as the nut when the window is at the top. */}
       {Array.from({ length: FRETS + 1 }, (_, i) => (
         <line

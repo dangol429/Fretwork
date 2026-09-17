@@ -4,19 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#f0ede8" />
+
+    <!-- Everything between these two comments is per-page: the homepage's own
+         tags as written here, and the prerender script (scripts/prerender.mjs)
+         replaces the whole block with a chord's own when it writes that
+         chord's static file, using the same PageMeta shape src/seo/head.ts
+         renders for a client-side navigation. Never append a second copy
+         alongside this one — replace it, or document.title (and a crawler
+         reading raw HTML) will see the first, wrong, tag. -->
+    <!-- page-meta:start -->
     <meta
       name="description"
       content="Look up any guitar chord and see every way to play it — every voicing up the neck, easiest first, with capo and substitute shapes when the chord is hard."
     />
+    <link rel="canonical" href="https://fretworkforguitar.com" />
     <title>Fretwork — every way to play every guitar chord</title>
 
+    <meta property="og:site_name" content="Fretwork" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Fretwork — every way to play every guitar chord" />
     <meta
       property="og:description"
       content="Look up any guitar chord and see every way to play it."
     />
+    <meta property="og:url" content="https://fretworkforguitar.com" />
+    <meta property="og:image" content="https://fretworkforguitar.com/og-default.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Fretwork — every way to play every guitar chord" />
+    <meta
+      name="twitter:description"
+      content="Look up any guitar chord and see every way to play it."
+    />
+    <!-- page-meta:end -->
 
     <!-- Resolve the theme before the first paint: a stored choice if there is
          one, the OS preference otherwise. Inline and synchronous on purpose —
@@ -62,6 +84,15 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@20..144,400..600,20..34,1&family=Italianno&family=Work+Sans:wght@350..600&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@20..144,400..600,20..34,1&family=Italianno&family=Work+Sans:wght@350..600&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@20..144,400..600,20..34,1&family=Italianno&family=Work+Sans:wght@350..600&display=swap" /></noscript>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-20EQ37S1GV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-20EQ37S1GV');
+    </script>
   </head>
   <body>
     <div id="root"></div>

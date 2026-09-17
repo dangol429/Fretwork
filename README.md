@@ -141,8 +141,21 @@ Three pieces make it work:
 The landing page, the chord search, and the three tiers of results are all
 built and working. Every diagram in every tier is playable.
 
-Routing is the URL hash and nothing else: `#Bb` is the B♭ page, no hash is the
-hero. Chords can be linked to and the back button behaves.
+Routing is real URLs via `react-router`: `/chord/bb-major` is the B♭ page, `/`
+is the hero. Every chord in the catalog (`chords/catalog.ts`) is statically
+pre-rendered to its own `dist/chord/<slug>/index.html` at build time — see
+`src/entry-server.tsx` and `scripts/prerender.mjs` — so a crawler or a link
+unfurler gets real HTML, not a blank root div waiting on JS. `npm run build`
+runs the client build, then an SSR build of `entry-server.tsx`, then the
+prerender script; `npm run dev` is unaffected and still serves everything
+client-side. The same build also writes `dist/sitemap.xml` and `dist/404.html`.
+Enharmonic pairs (C♯/D♭ etc.) have one canonical spelling each — see
+`chords/enharmonics.ts` — the other resolves but only redirects.
+
+Once this is deployed, resubmit `https://fretworkforguitar.com/sitemap.xml` in
+Google Search Console (Sitemaps) and Bing Webmaster Tools; both already have
+`robots.txt` pointing at it, but a fresh submission after a domain goes live
+gets it crawled sooner.
 
 Not built yet: alternate tunings, left-handed diagrams, printing.
 

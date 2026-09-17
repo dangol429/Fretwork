@@ -1,3 +1,5 @@
-# Fretwork is one public page. Everything on it is meant to be found.
+# Fretwork is a small, fully public site. Everything on it is meant to be found.
 User-agent: *
 Allow: /
+
+Sitemap: https://fretworkforguitar.com/sitemap.xml
