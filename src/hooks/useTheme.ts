@@ -8,7 +8,7 @@ const DARK_QUERY = "(prefers-color-scheme: dark)";
 
 /** Matches --paper in tokens.css, for the browser chrome on mobile. */
 const CHROME_COLOR: Record<Theme, string> = {
-  light: "#f0ede8",
+  light: "#e6e0d4",
   dark: "#17130f",
 };
 

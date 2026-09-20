@@ -22,5 +22,5 @@
     <circle cx="380" cy="325" r="12"/>
   </g>
   <text x="700" y="330" font-family="Georgia, 'Times New Roman', serif" font-size="96" fill="#2a1c12">Fretwork</text>
-  <text x="700" y="385" font-family="Verdana, Arial, sans-serif" font-size="30" letter-spacing="2" fill="#6b5c4d">every way to play every chord</text>
+  <text x="700" y="385" font-family="Verdana, Arial, sans-serif" font-size="24" letter-spacing="0.5" fill="#6b5c4d">every way to play every chord</text>
 </svg>

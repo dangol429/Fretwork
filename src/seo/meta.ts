@@ -19,11 +19,11 @@ export type PageMeta = {
   ogImage: string;
 };
 
-// SVG rather than a raster export: there is no image-generation tooling in
-// this environment to produce a PNG. Most link-unfurlers (Slack, Discord,
-// iMessage) render it fine; a few older ones don't — swap in a PNG export of
-// the same art at /public/og-default.png when one is easy to produce.
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.svg`;
+// A PNG rather than the SVG it's rendered from — og:image needs to work in
+// unfurlers that don't accept SVG at all (some LinkedIn/Facebook crawler
+// paths, some chat apps). Regenerate from public/og-default.svg with
+// `node scripts/make-og-image.mjs` whenever the source art changes.
+const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.png`;
 
 export const HOME_META: PageMeta = {
   title: `${SITE_NAME} — every way to play every guitar chord`,
