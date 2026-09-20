@@ -3,7 +3,11 @@ import { PLATE, VIEW, pctX, pctY } from "../Guitar/geometry";
 import { warmChords } from "../../chords/load";
 import "./ChordSearch.css";
 
-const HINTS = ["A♯", "B♭", "Am"];
+// Three genuinely different destinations. A♯ and B♭ are the same pitch class
+// (see chords/enharmonics.ts) — one canonical page — so showing both here
+// looked like two options and was actually one, confusing rather than
+// demonstrating anything.
+const HINTS = ["F♯m7", "Bb", "Am"];
 
 type ChordSearchProps = {
   onFocusChange: (focused: boolean) => void;

@@ -16,24 +16,24 @@
   /* -- Core palette (locked — the loved colors) ---------------------------- */
   --terracotta: #c2703d; /* primary accent — warm rust */
   --terracotta-deep: #a85e30; /* pressed / active */
-  --paper: #f0ede8; /* warm cream background */
-  --paper-raised: #e8e2d8; /* raised surfaces */
-  --border-warm: #e0dcd4;
-  --border-soft: #ebe7e0;
+  --paper: #e6e0d4; /* warm cream background — deep enough to read as paper, not a blank white screen */
+  --paper-raised: #ded5c4; /* raised surfaces */
+  --border-warm: #d6cfc0;
+  --border-soft: #e1dacc;
   --ink: #1a1a1a; /* primary text */
   /* The two quiet greys are warm rather than neutral, and dark enough to clear
      WCAG AA (4.5:1) on --paper at the small sizes they are used at. Quiet is a
      matter of weight, size and tracking here — never of being hard to read. */
-  --muted: #6b6157; /* 5.16:1 on --paper */
-  --muted-light: #6f655a; /* 4.88:1 on --paper */
+  --muted: #6b6157; /* 4.60:1 on --paper */
+  --muted-light: #6a6056; /* 4.67:1 on --paper */
   --card: #ffffff;
-  --accent-cut: #c02626; /* muted-string red — 5.02:1 on --paper */
+  --accent-cut: #bd2525; /* muted-string red — 4.62:1 on --paper */
 
   /* Terracotta as ink. The brand rust is a 3.1:1 colour: right for a stroke or
      a tick, too pale to set type in. Anything that is *text* uses these two
      instead, so the accent stays the accent without failing contrast. */
-  --terracotta-text: #a35520; /* 4.58:1 on --paper, 5.41:1 on --card */
-  --terracotta-text-hover: #8c4818; /* 6.93:1 on --card */
+  --terracotta-text: #984f1e; /* 4.60:1 on --paper, 6.05:1 on --card */
+  --terracotta-text-hover: #8c4818; /* 6.87:1 on --card */
 
   /* -- The instrument (line art) ------------------------------------------ */
   --line: #4a3324; /* warm dark-brown stroke — the drawing hand */
@@ -76,10 +76,10 @@
   /* -- Atmosphere ----------------------------------------------------------
      The room the instrument is sitting in: the light on the wall behind it,
      the tooth of the paper, and the shadow it drops on whatever it rests on. */
-  --wash-light: rgba(255, 253, 250, 0.75); /* the pool of light behind it */
+  --wash-light: rgba(250, 246, 236, 0.42); /* the pool of light behind it — let the paper show through rather than blanking to white */
   --wash-warm: rgba(var(--terracotta-rgb), 0.05);
   --wash-edge: rgba(74, 51, 36, 0.05); /* corners falling away */
-  --grain-opacity: 0.042;
+  --grain-opacity: 0.09; /* visible tooth rather than a flat wash */
   --grain-blend: multiply;
   --ground-near: rgba(74, 51, 36, 0.28); /* contact shadow under the body */
   --ground-far: rgba(74, 51, 36, 0.12); /* the neck, lighter, further off */
