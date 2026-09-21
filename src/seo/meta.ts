@@ -26,7 +26,7 @@ export type PageMeta = {
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.png`;
 
 export const HOME_META: PageMeta = {
-  title: `${SITE_NAME} — every way to play every guitar chord`,
+  title: `${SITE_NAME} — how to play guitar chords with sound`,
   description:
     "Look up any guitar chord and see every way to play it — every voicing up the neck, easiest first, with capo and substitute shapes when the chord is hard.",
   canonical: SITE_URL,
@@ -45,9 +45,11 @@ export function buildChordMeta(result: ChordResult, slug: string): PageMeta {
   const { chord, voicings, hard } = result;
   const shapeCount = plural(voicings.length, "voicing");
 
-  const title = hard
-    ? `${chord.name} Chord Guitar — Every Voicing, Capo Shortcut & Easy Alternative | ${SITE_NAME}`
-    : `${chord.name} Chord Guitar — Every Voicing | ${SITE_NAME}`;
+  // "with sound" is doing real work here, not decoration — it's what people
+  // searching for this actually type, because a still chord diagram is the
+  // commodity and hearing the voicing before you fret it is what this page
+  // has that the rest of the results page doesn't.
+  const title = `How to play ${chord.spoken} on guitar with sound | ${SITE_NAME}`;
 
   const description = hard
     ? `${chord.spoken} on guitar: ${shapeCount} shown easiest first, plus a capo shortcut and an easier substitute shape for when the full chord is out of reach.`

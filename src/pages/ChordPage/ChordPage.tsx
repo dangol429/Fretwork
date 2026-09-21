@@ -10,6 +10,8 @@ import type { Voicing } from "../../chords/fretboard";
 import type { ChordResult } from "../../chords/resolve";
 import { hush, strum } from "../../audio/strum";
 import { SITE_NAME } from "../../config";
+import { useTheme } from "../../hooks/useTheme";
+import { ThemeToggle } from "../../components/ThemeToggle/ThemeToggle";
 import { applyHeadTags } from "../../seo/head";
 import { buildChordFaqs, buildChordIntro, buildChordMeta } from "../../seo/meta";
 import { breadcrumbSchema, faqSchema, howToSchema } from "../../seo/schema";
@@ -102,6 +104,7 @@ export function ChordAnswer({ slug, result }: ChordAnswerProps) {
   const { chord, notes, voicings, hard, capo, similar } = result;
   const [draft, setDraft] = useState("");
   const search = useChordSearch();
+  const { theme, toggleTheme } = useTheme();
 
   const combo = { rootPc: chord.rootPc, qualityId: chord.quality.id };
   const alt = altRoot(chord.rootPc);
@@ -139,151 +142,159 @@ export function ChordAnswer({ slug, result }: ChordAnswerProps) {
   };
 
   return (
-    <main className="results">
+    <>
       <header className="results__bar">
-        <Link to="/" className="results__home">
-          {SITE_NAME}
-        </Link>
+        <div className="results__bar-inner">
+          <Link to="/" className="results__home">
+            {SITE_NAME}
+          </Link>
 
-        <form className="results__search" role="search" onSubmit={handleSubmit}>
-          <label className="visually-hidden" htmlFor="results-chord">
-            Search another chord
-          </label>
-          <input
-            id="results-chord"
-            className="results__input"
-            type="search"
-            value={draft}
-            onChange={(event) => setDraft(event.target.value)}
-            placeholder="Another chord…"
-            autoComplete="off"
-            autoCorrect="off"
-            autoCapitalize="off"
-            spellCheck={false}
-            enterKeyHint="search"
-          />
-        </form>
+          <div className="results__bar-controls">
+            <form className="results__search" role="search" onSubmit={handleSubmit}>
+              <label className="visually-hidden" htmlFor="results-chord">
+                Search another chord
+              </label>
+              <input
+                id="results-chord"
+                className="results__input"
+                type="search"
+                value={draft}
+                onChange={(event) => setDraft(event.target.value)}
+                placeholder="Another chord…"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                enterKeyHint="search"
+              />
+            </form>
+
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
+          </div>
+        </div>
       </header>
 
-      <nav className="results__breadcrumb" aria-label="Breadcrumb">
-        <ol>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/">Chords</Link>
-          </li>
-          <li aria-current="page">{chord.name}</li>
-        </ol>
-      </nav>
-
-      <div className="results__head" data-enter="head">
-        <h1 className="results__title">{chord.name}</h1>
-        <p className="results__spoken">
-          {chord.spoken}
-          {alt && (
-            <>
-              {" "}
-              · also written <span className="results__alt">{alt.ascii}{chord.quality.suffix}</span>
-            </>
-          )}
-        </p>
-        <p className="results__notes">{notes.join(" · ")}</p>
-        <p className="results__intro">{intro}</p>
-        <p className="results__hint">
-          <svg className="results__hint-pick" viewBox="-11 -11 22 22" aria-hidden="true">
-            <path d={PICK} />
-          </svg>
-          Click any shape to hear it played.
-        </p>
-      </div>
-
-      <Tier
-        index={1}
-        label="Every way to play it"
-        aside={`No capo. ${voicings.length} shapes, easiest first.`}
-      >
-        {voicings.map((voicing, i) => (
-          <Playable
-            key={voicing.frets.join(",")}
-            voicing={voicing}
-            index={i}
-            caption={labels[i]}
-            badge={i === 0 ? "Easiest" : undefined}
-            playing={chord.name}
-          />
-        ))}
-      </Tier>
-
-      {!hard && (
-        <p className="results__easy" data-enter="head">
-          <span className="results__easy-mark" aria-hidden="true">
-            ✓
-          </span>
-          <span>
-            <strong>Already an easy open chord.</strong> There is an open shape for this one, so
-            there is no capo trick or near-miss substitute worth showing — the first shape above is
-            the one to learn.
-          </span>
-        </p>
-      )}
-
-      {hard && capo.length > 0 && (
-        <Tier
-          index={2}
-          label="With a capo"
-          aside="The very same notes, under an easier hand. It sounds identical."
-        >
-          {capo.map((suggestion) => (
-            <Playable
-              key={`${suggestion.shape.name}-${suggestion.capo}`}
-              voicing={suggestion.voicing}
-              index={suggestion.capo}
-              capo={suggestion.capo}
-              caption={`Capo ${suggestion.capo} · ${suggestion.shape.name} shape`}
-              note={`Sounds ${chord.name}`}
-              playing={`${chord.name} with a capo at fret ${suggestion.capo}`}
-            />
-          ))}
-        </Tier>
-      )}
-
-      {hard && similar.length > 0 && (
-        <Tier
-          index={3}
-          label="Sounds similar"
-          aside="A different, easier chord. These play their own notes, so you can hear the difference."
-        >
-          {similar.map((substitute, i) => (
-            <Playable
-              key={substitute.shape.name}
-              voicing={substitute.voicing}
-              index={i}
-              caption={substitute.shape.name}
-              note={`Shares ${substitute.shared.length} of ${substitute.total} notes — ${substitute.shared.join(", ")}. Close, not identical.`}
-              playing={`${substitute.shape.name}, a close substitute for ${chord.name}`}
-            />
-          ))}
-        </Tier>
-      )}
-
-      {related.length > 0 && (
-        <nav className="results__related" aria-label="Related chords">
-          <h2 className="results__related-title">Related chords</h2>
-          <ul>
-            {related.map((rel) => (
-              <li key={rel.slug}>
-                <Link to={`/chord/${rel.slug}`}>{rel.name}</Link>
-              </li>
-            ))}
-          </ul>
+      <main className="results">
+        <nav className="results__breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/">Chords</Link>
+            </li>
+            <li aria-current="page">{chord.name}</li>
+          </ol>
         </nav>
-      )}
 
-      <JsonLd data={breadcrumbSchema(chord.name, meta.canonical)} />
-      <JsonLd data={howToSchema(result, meta.canonical)} />
-      {faqs.length > 0 && <JsonLd data={faqSchema(faqs)} />}
-    </main>
+        <div className="results__head" data-enter="head">
+          <h1 className="results__title">{chord.name}</h1>
+          <p className="results__spoken">
+            {chord.spoken}
+            {alt && (
+              <>
+                {" "}
+                · also written <span className="results__alt">{alt.ascii}{chord.quality.suffix}</span>
+              </>
+            )}
+          </p>
+          <p className="results__notes">{notes.join(" · ")}</p>
+          <p className="results__intro">{intro}</p>
+          <p className="results__hint">
+            <svg className="results__hint-pick" viewBox="-11 -11 22 22" aria-hidden="true">
+              <path d={PICK} />
+            </svg>
+            Click any shape to hear it played.
+          </p>
+        </div>
+
+        <Tier
+          index={1}
+          label="Every way to play it"
+          aside={`No capo. ${voicings.length} shapes, easiest first.`}
+        >
+          {voicings.map((voicing, i) => (
+            <Playable
+              key={voicing.frets.join(",")}
+              voicing={voicing}
+              index={i}
+              caption={labels[i]}
+              badge={i === 0 ? "Easiest" : undefined}
+              playing={chord.name}
+            />
+          ))}
+        </Tier>
+
+        {!hard && (
+          <p className="results__easy" data-enter="head">
+            <span className="results__easy-mark" aria-hidden="true">
+              ✓
+            </span>
+            <span>
+              <strong>Already an easy open chord.</strong> There is an open shape for this one, so
+              there is no capo trick or near-miss substitute worth showing — the first shape above is
+              the one to learn.
+            </span>
+          </p>
+        )}
+
+        {hard && capo.length > 0 && (
+          <Tier
+            index={2}
+            label="With a capo"
+            aside="The very same notes, under an easier hand. It sounds identical."
+          >
+            {capo.map((suggestion) => (
+              <Playable
+                key={`${suggestion.shape.name}-${suggestion.capo}`}
+                voicing={suggestion.voicing}
+                index={suggestion.capo}
+                capo={suggestion.capo}
+                caption={`Capo ${suggestion.capo} · ${suggestion.shape.name} shape`}
+                note={`Sounds ${chord.name}`}
+                playing={`${chord.name} with a capo at fret ${suggestion.capo}`}
+              />
+            ))}
+          </Tier>
+        )}
+
+        {hard && similar.length > 0 && (
+          <Tier
+            index={3}
+            label="Sounds similar"
+            aside="A different, easier chord. These play their own notes, so you can hear the difference."
+          >
+            {similar.map((substitute, i) => (
+              <Playable
+                key={substitute.shape.name}
+                voicing={substitute.voicing}
+                index={i}
+                caption={substitute.shape.name}
+                note={`Shares ${substitute.shared.length} of ${substitute.total} notes — ${substitute.shared.join(", ")}. Close, not identical.`}
+                playing={`${substitute.shape.name}, a close substitute for ${chord.name}`}
+              />
+            ))}
+          </Tier>
+        )}
+
+        {related.length > 0 && (
+          <nav className="results__related" aria-label="Related chords">
+            <h2 className="results__related-title">Related chords</h2>
+            <ul>
+              {related.map((rel) => (
+                <li key={rel.slug}>
+                  <Link to={`/chord/${rel.slug}`}>{rel.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+
+        <JsonLd data={breadcrumbSchema(chord.name, meta.canonical)} />
+        <JsonLd data={howToSchema(result, meta.canonical)} />
+        {faqs.length > 0 && <JsonLd data={faqSchema(faqs)} />}
+      </main>
+    </>
   );
 }
 

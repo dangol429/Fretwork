@@ -6,27 +6,43 @@
 
 .results {
   position: relative;
-  max-width: 1180px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 clamp(1.25rem, 5vw, 4rem) clamp(4rem, 10vh, 7rem);
 }
 
 /* -- The bar --------------------------------------------------------------
    Sticky, and translucent rather than solid, so the paper keeps showing
-   through it as the list scrolls underneath. */
+   through it as the list scrolls underneath.
+
+   The bar itself runs the full width of the viewport — a real site header,
+   not one that stops short of the browser's own edges the way it used to
+   when this lived inside .results. Its content is centred in the same
+   .results-inner column so the wordmark lines up with the title beneath it. */
 .results__bar {
   position: sticky;
   top: 0;
   z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-5);
-  padding: clamp(0.9rem, 2.2vh, 1.4rem) 0;
   background: var(--paper);
   background: color-mix(in srgb, var(--paper) 86%, transparent);
   backdrop-filter: blur(12px) saturate(1.15);
   border-bottom: 1px solid var(--border-warm);
+}
+
+.results__bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(0.9rem, 2.2vh, 1.4rem) clamp(1.25rem, 5vw, 4rem);
+}
+
+.results__bar-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
 }
 
 .results__home {
