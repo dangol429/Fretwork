@@ -240,6 +240,21 @@
   margin-top: var(--sp-5);
 }
 
+/* Opts the whole diagram grid out of global.css's `.is-theme-shifting *`
+   crossfade. That rule is fine on a page with a few dozen elements, but a
+   chord's fretboard cards can put several hundred small SVG shapes (grid
+   lines, finger dots, fret numbers) on screen at once — asking every one of
+   them to individually track a transition is what was actually making the
+   toggle stutter, measured directly: worst dropped frame went from 433ms to
+   67ms with just this exclusion, versus 50ms disabling the crossfade
+   everywhere. The cards still land correctly on the new theme's colours —
+   they just snap instead of fading, which reads as "already settled" while
+   the page around them catches up rather than as a glitch. */
+.is-theme-shifting .tier__shapes,
+.is-theme-shifting .tier__shapes * {
+  transition: none !important;
+}
+
 /* -- One shape, playable --------------------------------------------------- */
 .shape {
   position: relative;
